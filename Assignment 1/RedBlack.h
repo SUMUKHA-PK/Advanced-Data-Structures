@@ -22,28 +22,6 @@ namespace rbtree {
         cout<<"Node-> Value: "<<head->key<<" Color: "<<head->color;
         inorder(head->right);
     }
-
-    void leftRotate(Node * x) {
-        Node * y = x->right;
-        // Node * temp = y->left;
-        // y->left = x;
-        // x->right = temp;
-        x->right = y->left;
-        if(y->left!=NULL) {
-            y->left->parent = x;
-        }
-        y->parent = x->parent;
-        // // if(x->parent == NULL) {
-
-        // // }
-        if (x == x->parent->left) {
-            x->parent->left = y;
-        }
-        else 
-            x->parent->right = y;
-        y->left = x;
-        x->parent = y;
-    }
     
     int height(Node * head) {
 
@@ -58,7 +36,7 @@ namespace rbtree {
 
     void printOneLevel(Node * node, int level) {
 
-        if(node ==NULL) {
+        if(node == NULL) {
             return;
         }
 
@@ -76,5 +54,41 @@ namespace rbtree {
         int h = height(node);
         for(int i=1;i<=h;i++) 
             printOneLevel(node,i);
+    }
+
+    void leftRotate(Node * x) {
+        Node * y = x->right;
+        x->right = y->left;
+        if(y->left!=NULL) {
+            y->left->parent = x;
+        }
+        y->parent = x->parent;
+        // // if(x->parent == NULL) {
+
+        // // }
+        if (x == x->parent->left) {
+            x->parent->left = y;
+        }
+        else 
+            x->parent->right = y;
+        y->left = x;
+        x->parent = y;
+    }
+
+    void rightRotate(Node * y) {
+        Node * x = y->left;
+        y->left = x->right;
+        if(x->right!=NULL) {
+            x->right->parent = y;
+        }
+        x->parent = y->parent;
+        if(y==y->parent->right) {
+            y->parent->right = x;
+        }
+        else {
+            y->parent->left = x;
+        }
+        x->right = y;
+        y->parent = x;
     }
 }

@@ -53,5 +53,9 @@ int main() {
     inorder(root);
     levelOrder(root);
 
+    rightRotate(right2);
+    inorder(root);
+    levelOrder(root);
+
     return 0;
 }
