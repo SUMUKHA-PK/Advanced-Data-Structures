@@ -57,15 +57,14 @@ namespace rbtree {
     }
 
     void leftRotate(Node * x) {
+        
         Node * y = x->right;
+        
         x->right = y->left;
         if(y->left!=NULL) {
             y->left->parent = x;
         }
         y->parent = x->parent;
-        // // if(x->parent == NULL) {
-
-        // // }
         if (x == x->parent->left) {
             x->parent->left = y;
         }
@@ -76,7 +75,9 @@ namespace rbtree {
     }
 
     void rightRotate(Node * y) {
+        
         Node * x = y->left;
+        
         y->left = x->right;
         if(x->right!=NULL) {
             x->right->parent = y;
@@ -91,4 +92,81 @@ namespace rbtree {
         x->right = y;
         y->parent = x;
     }
+
+    Node * createNode(int val) {
+        Node * node = new Node;
+        node ->key = val;
+        return node;
+    }
+
+
+    //Did not understand this. Check it out later
+    void insertFixup(Node * head, Node * z) {
+        
+        while(z->parent->color == "RED") {  
+            if(z->parent == z->parent->parent->left) {
+                Node * y = z->parent->parent->right;
+                if(y->color == "RED") {
+                    z->parent->color = "BLACK" ;
+                    y->color = "BLACK";
+                    z->parent->parent->color = "RED";
+                    z = z->parent->parent;
+                }
+                else if(z==z->parent->right) {
+                    z = z->parent;
+                    leftRotate(z);
+                    z->parent->color = "BLACK";
+                    z->parent->parent->color = "RED";
+                    rightRotate(z->parent->parent);
+                }
+            }
+            else if(z->parent == z->parent->parent->right) {
+                Node * y = z->parent->parent->left;
+                if(y->color == "RED") {
+                    z->parent->color = "BLACK" ;
+                    y->color = "BLACK";
+                    z->parent->parent->color = "RED";
+                    z = z->parent->parent;
+                }
+                else if(z==z->parent->left) {
+                    z = z->parent;
+                    leftRotate(z);
+                    z->parent->color = "BLACK";
+                    z->parent->parent->color = "RED";
+                    rightRotate(z->parent->parent);
+                }
+            }
+        }
+    }
+
+    void insertNode(Node * head, Node * z) {
+        
+        Node * y = NULL;
+        Node * x = head;
+
+        while(x!=NULL) {
+            y = x;
+            if(z->key<x->key) {
+                x = x->left;
+            }
+            else {
+                x = x->right;
+            }
+        }
+
+        z->parent = y;
+        
+        if(y==NULL) {
+            head = z;
+        }
+        else if(z->key<y->key) {
+            y->left = z;
+        }
+        else {
+            y->right = z;
+        }
+        z->color = "RED";
+
+        insertFixup(head, z);
+    } 
 }
