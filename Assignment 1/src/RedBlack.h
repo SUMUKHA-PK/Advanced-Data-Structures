@@ -77,20 +77,23 @@ namespace rbtree {
     void rightRotate(Node * y) {
         
         Node * x = y->left;
-        
+            
         y->left = x->right;
+
         if(x->right!=NULL) {
             x->right->parent = y;
         }
+
         x->parent = y->parent;
-        if(y==y->parent->right) {
-            y->parent->right = x;
+        if(y==y->parent->left) {
+            y->parent->left = x;
         }
         else {
-            y->parent->left = x;
+            y->parent->right = x;
         }
         x->right = y;
         y->parent = x;
+        cout<<"HERE"<<endl;
     }
 
     Node * createNode(int val) {
@@ -117,6 +120,7 @@ namespace rbtree {
                     leftRotate(z);
                     z->parent->color = "BLACK";
                     z->parent->parent->color = "RED";
+                    cout<<"Stupids"<<endl;
                     rightRotate(z->parent->parent);
                 }
             }
@@ -133,6 +137,7 @@ namespace rbtree {
                     leftRotate(z);
                     z->parent->color = "BLACK";
                     z->parent->parent->color = "RED";
+                    cout<<"Stupids"<<endl;
                     rightRotate(z->parent->parent);
                 }
             }

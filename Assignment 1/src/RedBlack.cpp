@@ -54,12 +54,12 @@ int main() {
     inorder(root);
 
     levelOrder(root);
-    leftRotate(Right);
+    leftRotate(Left);
 
     inorder(root);
     levelOrder(root);
 
-    rightRotate(right2);
+    rightRotate(left2);
     inorder(root);
     levelOrder(root);
 
