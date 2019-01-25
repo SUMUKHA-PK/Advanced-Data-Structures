@@ -79,6 +79,10 @@ namespace avltree{
         y->height = max(height(y->left),height(y->right))+1;
     }
 
+    void updateHeights(Node * head) {
+
+    }
+
     void rightRotate(Node * y) {
 
         Node * x = y->left;
@@ -107,6 +111,13 @@ namespace avltree{
         return node;
     }
 
+    int getBalance(Node* node){
+        if(node==NULL){
+            return 0;
+        }
+        return node->left->height - node->right->height;
+    }
+
     void insertNode(Node * head,Node * node){
         Node * y = NULL;
         Node * x = head;
@@ -132,5 +143,14 @@ namespace avltree{
         else {
             y->right = node;
         }
+
+        node->height = height(node);
+
+        updateHeights(head);
+
+        int balance = getBalance(head);
+
+        
+
     }
 }
