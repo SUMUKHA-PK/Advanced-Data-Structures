@@ -59,56 +59,39 @@ namespace rbtree {
     void leftRotate(Node * head , Node * x) {
         
         Node * y = x->right;
-        
-        x->right = y->left;
-        if(y->left!=NULL) {
-            y->left->parent = x;
-        }
-        y->parent = x->parent;
-        if(x->parent!=NULL){
-            if (x == x->parent->left) {
-                x->parent->left = y;
-            }
-            else {
-                x->parent->right = y;
-            }
-        }
-        else{
-            // head = y;
-        }
+        Node * T2 = y->left;
+        Node * par = x->parent;
+
         y->left = x;
+        x->right = T2;
+
+        if(x->parent->right==x){
+            x->parent->right =y;
+            y->parent = x->parent;
+        }
+        else if (x->parent->left==x){
+            x->parent->left =y;
+            y->parent = x->parent;
+        }
         x->parent = y;
     }
 
     void rightRotate(Node * head , Node * y) {
         
         Node * x = y->left;
-            
-        y->left = x->right;
+        Node * T2 = x->right;
 
-        if(x->right!=NULL) {
-            x->right->parent = y;
-        }
-
-        x->parent = y->parent;
-        if(y->parent!=NULL){
-            if(y==y->parent->left) {
-                y->parent->left = x;
-                
-            }
-            else {
-                y->parent->right = x;
-            }
-        }
-        else{
-            // head = x;
-            // cout<<head->left->key<<endl;
-            // head->left = x->left;
-            // cout<<head->left->key<<endl;
-            // cout<<"ERE"<<endl;
-        }
-        
         x->right = y;
+        y->left = T2;
+
+        if(y->parent->right==y){
+            y->parent->right =x;
+            x->parent = y->parent;
+        }
+        else if (y->parent->left==y){
+            y->parent->left =x;
+            x->parent = y->parent;
+        }
         y->parent = x;
     }
 

@@ -36,7 +36,7 @@ int main() {
     right1->key = 5;
     right1->parent = Right;
 
-    right2->key = 7;
+    right2->key = 10;
     right2->parent = Right;
 
     inorder(root);
@@ -63,6 +63,10 @@ int main() {
     levelOrder(root);
 
     rightRotate(right2);
+    inorder(root);
+    levelOrder(root);
+
+    insertNode(root,createNode(7));
     inorder(root);
     levelOrder(root);
 

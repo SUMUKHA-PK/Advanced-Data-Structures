@@ -100,4 +100,37 @@ namespace avltree{
         y->height = max(height(y->left),height(y->right))+1;
     }
 
+    Node * createNode(int key){
+
+        Node * node = new Node;
+        node->key = key;
+        return node;
+    }
+
+    void insertNode(Node * head,Node * node){
+        Node * y = NULL;
+        Node * x = head;
+
+        while(x!=NULL) {
+            y = x;
+            if(node->key<x->key) {
+                x = x->left;
+            }
+            else {
+                x = x->right;
+            }
+        }
+
+        node->parent = y;
+        
+        if(y==NULL) {
+            head = node;
+        }
+        else if(node->key<y->key) {
+            y->left = node;
+        }
+        else {
+            y->right = node;
+        }
+    }
 }
