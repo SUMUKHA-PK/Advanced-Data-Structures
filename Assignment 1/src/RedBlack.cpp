@@ -19,7 +19,6 @@ int main() {
     root->color = "BLACK";
 
     Left->left = left1;
-    Left->right = NULL;
     Left->key = 2;
     Left->color = "RED";
     Left->parent = root;
