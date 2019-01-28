@@ -50,21 +50,21 @@ int main() {
     inorder(root);
     levelOrder(root);
 
-    // leftRotate(Left);
-    // inorder(root);
-    // levelOrder(root);
+    leftRotate(Left);
+    inorder(root);
+    levelOrder(root);
 
-    // rightRotate(left2);
-    // inorder(root);
-    // levelOrder(root);
+    rightRotate(left2);
+    inorder(root);
+    levelOrder(root);
 
-    // leftRotate(Right);
-    // inorder(root);
-    // levelOrder(root);
+    leftRotate(Right);
+    inorder(root);
+    levelOrder(root);
 
-    // rightRotate(right2);
-    // inorder(root);
-    // levelOrder(root);
+    rightRotate(right2);
+    inorder(root);
+    levelOrder(root);
 
     insertNode(root,createNode(7),NULL,-1);
     inorder(root);

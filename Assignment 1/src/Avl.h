@@ -117,8 +117,14 @@ namespace avltree{
     void insertNode(Node * head,Node * node, Node * parent, int d){
 
         if(head == NULL) {
-            if(d==0) parent->left = node;
-            else if(d==1) parent->right = node;
+            if(d==0) {
+                parent->left = node;
+                node->parent = parent;
+            }
+            else if(d==1) {
+                parent->right = node;
+                node->parent = parent;
+            }
             else head = node;
             return;
         }
@@ -133,34 +139,27 @@ namespace avltree{
         head->height = 1 + max(height(head->left),height(head->right));
 
         int balance = getBalance(head);
-        // cout<<head->left->key<<endl;
-        // cout<<balance<<endl;
-        // cout<<head->key<<"jey"<<endl;
-
+        
         if(balance>1 && node->key<head->left->key) {
-            cout<<"Q"<<endl;
             rightRotate(head);
             return;
         }
         if(balance<-1 && node->key>head->right->key) {
-            cout<<"Qq"<<endl;
             leftRotate(head);
             return;
         }
         if(balance>1 && node->key>head->left->key){
-            cout<<"Qqe"<<endl;
-            cout<<head->key<<endl;
             leftRotate(head->left);
-            cout<<"WTF"<<endl;
             rightRotate(head);
             return;
         }
         if(balance<-1 && node->key<head->right->key) {
-            cout<<"Qqer"<<endl;
             rightRotate(head->right);
             leftRotate(head);
             return;
         }
         return;
     }
+
+    
 }
