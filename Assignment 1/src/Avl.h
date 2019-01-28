@@ -79,10 +79,6 @@ namespace avltree{
         y->height = max(height(y->left),height(y->right))+1;
     }
 
-    void updateHeights(Node * head) {
-
-    }
-
     void rightRotate(Node * y) {
 
         Node * x = y->left;
@@ -115,42 +111,56 @@ namespace avltree{
         if(node==NULL){
             return 0;
         }
-        return node->left->height - node->right->height;
+        return height(node->left) - height(node->right);
     }
 
-    void insertNode(Node * head,Node * node){
-        Node * y = NULL;
-        Node * x = head;
+    void insertNode(Node * head,Node * node, Node * parent, int d){
 
-        while(x!=NULL) {
-            y = x;
-            if(node->key<x->key) {
-                x = x->left;
-            }
-            else {
-                x = x->right;
-            }
+        if(head == NULL) {
+            if(d==0) parent->left = node;
+            else if(d==1) parent->right = node;
+            else head = node;
+            return;
         }
 
-        node->parent = y;
-        
-        if(y==NULL) {
-            head = node;
+        if(node->key<head->key){
+            insertNode(head->left,node,head,0);
         }
-        else if(node->key<y->key) {
-            y->left = node;
-        }
-        else {
-            y->right = node;
+        else{
+            insertNode(head->right,node,head,1);
         }
 
-        node->height = height(node);
-
-        updateHeights(head);
+        head->height = 1 + max(height(head->left),height(head->right));
 
         int balance = getBalance(head);
+        // cout<<head->left->key<<endl;
+        // cout<<balance<<endl;
+        // cout<<head->key<<"jey"<<endl;
 
-        
-
+        if(balance>1 && node->key<head->left->key) {
+            cout<<"Q"<<endl;
+            rightRotate(head);
+            return;
+        }
+        if(balance<-1 && node->key>head->right->key) {
+            cout<<"Qq"<<endl;
+            leftRotate(head);
+            return;
+        }
+        if(balance>1 && node->key>head->left->key){
+            cout<<"Qqe"<<endl;
+            cout<<head->key<<endl;
+            leftRotate(head->left);
+            cout<<"WTF"<<endl;
+            rightRotate(head);
+            return;
+        }
+        if(balance<-1 && node->key<head->right->key) {
+            cout<<"Qqer"<<endl;
+            rightRotate(head->right);
+            leftRotate(head);
+            return;
+        }
+        return;
     }
 }
