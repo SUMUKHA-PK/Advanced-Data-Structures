@@ -161,5 +161,80 @@ namespace avltree{
         return;
     }
 
-    
+    Node * inorderSuccessor(Node* node,int &n) {
+        Node * nodeTemp = new Node;
+        while(nodeTemp!=NULL){
+            nodeTemp=nodeTemp->left;
+            n=0;
+        }
+        return nodeTemp;
+    }
+
+    void deleteNode(Node * head,int key, Node * parent, int d) {
+        
+        if(head==NULL)
+            return;
+        if(key<head->key) {
+            deleteNode(head->left,key,head,0);
+        }
+        else if(key>head->key){
+            deleteNode(head->right,key,head,1);
+        }
+        else{
+            if((head->left==NULL)||(head->right==NULL)){
+                Node * nodeTemp = new Node;
+                if(head->left==NULL) {
+                    nodeTemp = head->right;
+                }
+                if(head->right==NULL) {
+                    nodeTemp = head->left;
+                }
+                if(nodeTemp ==NULL){
+                    nodeTemp = head;
+                    head = NULL;
+                }
+                else {
+                    * head = * nodeTemp;
+                }
+                delete nodeTemp;
+            }
+            else {
+                int n = 1;
+                Node * nodeTemp = inorderSuccessor(head->right,n);
+                head->key = nodeTemp->key;
+                deleteNode(head->right,nodeTemp->key,nodeTemp->parent,n); 
+            }
+        }
+
+        if(head==NULL)
+            return;
+
+        head->height = 1 + max(height(head->left),height(head->right));
+
+        int balance = getBalance(head);
+
+        if(balance>1 && getBalance(head->left)>=0){
+            rightRotate(head);
+            return;
+        }
+
+        if(balance>1 && getBalance(head->left)<0){
+            leftRotate(head->left);
+            rightRotate(head);
+            return;
+        }
+
+        if(balance<-1 && getBalance(head->right)<=0) {
+            leftRotate(head);
+            return;
+        }
+        
+        if(balance<-1 && getBalance(head->right)>0) {
+            rightRotate(head->right);
+            leftRotate(head);
+            return;
+        }
+
+        return;
+    }
 }

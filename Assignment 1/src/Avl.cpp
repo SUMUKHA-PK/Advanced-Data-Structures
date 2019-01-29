@@ -85,5 +85,7 @@ int main() {
     inorder(root);
     levelOrder(root);
 
+    deleteNode(root,13,NULL,1);
+
     return 0;
 }
