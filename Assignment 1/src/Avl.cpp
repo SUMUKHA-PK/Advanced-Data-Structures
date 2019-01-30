@@ -66,9 +66,9 @@ int main() {
     inorder(root);
     levelOrder(root);
 
-    insertNode(root,createNode(7),NULL,-1);
-    inorder(root);
-    levelOrder(root);
+    // insertNode(root,createNode(7),NULL,-1);
+    // inorder(root);
+    // levelOrder(root);
 
     
     insertNode(root,createNode(8),NULL,-1);
@@ -86,6 +86,8 @@ int main() {
     levelOrder(root);
 
     deleteNode(root,13,NULL,1);
+    inorder(root);
+    levelOrder(root);
 
     return 0;
 }

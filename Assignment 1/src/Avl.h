@@ -162,16 +162,16 @@ namespace avltree{
     }
 
     Node * inorderSuccessor(Node* node,int &n) {
-        Node * nodeTemp = new Node;
+        Node * nodeTemp = node;
         while(nodeTemp!=NULL){
+            node = nodeTemp;
             nodeTemp=nodeTemp->left;
             n=0;
         }
-        return nodeTemp;
+        return node;
     }
 
     void deleteNode(Node * head,int key, Node * parent, int d) {
-        
         if(head==NULL)
             return;
         if(key<head->key) {
@@ -181,28 +181,52 @@ namespace avltree{
             deleteNode(head->right,key,head,1);
         }
         else{
-            if((head->left==NULL)||(head->right==NULL)){
-                Node * nodeTemp = new Node;
-                if(head->left==NULL) {
-                    nodeTemp = head->right;
-                }
-                if(head->right==NULL) {
-                    nodeTemp = head->left;
-                }
-                if(nodeTemp ==NULL){
-                    nodeTemp = head;
-                    head = NULL;
+            if(head->left==NULL&&head->right==NULL){
+                if(head->parent->right==head){
+                    head->parent->right=NULL;
                 }
                 else {
-                    * head = * nodeTemp;
+                    head->parent->left=NULL;
                 }
-                delete nodeTemp;
+            }
+            else if(head->left==NULL){
+                if(head->parent->right==head){
+                    head->parent->right = head->right;
+                    head->right->parent = head->parent;
+                    Node * temp = head;
+                    head=head->right;
+                    delete temp;
+                }
+                else if(head->parent->left==head){
+                    head->parent->left = head->right;
+                    head->right->parent = head->parent;
+                    Node * temp = head;
+                    head=head->right;
+                    delete temp;
+                }
+            }
+            else if(head->right==NULL){
+                if(head->parent->right==head){
+                    head->parent->right = head->left;
+                    head->left->parent = head->parent;
+                    Node * temp = head;
+                    head=head->left;
+                    delete temp;
+                }
+                else if(head->parent->left==head){
+                    head->parent->left = head->left;
+                    head->left->parent = head->parent;
+                    Node * temp = head;
+                    head=head->left;
+                    delete temp;
+                }
             }
             else {
                 int n = 1;
-                Node * nodeTemp = inorderSuccessor(head->right,n);
+                Node * nodeTemp = new Node;
+                nodeTemp = inorderSuccessor(head->right,n);
                 head->key = nodeTemp->key;
-                deleteNode(head->right,nodeTemp->key,nodeTemp->parent,n); 
+                deleteNode(head->right,nodeTemp->key,head->parent,n); 
             }
         }
 
