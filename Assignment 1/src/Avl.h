@@ -61,7 +61,6 @@ namespace avltree{
         
         Node * y = x->right;
         Node * T2 = y->left;
-        Node * par = x->parent;
 
         y->left = x;
         x->right = T2;

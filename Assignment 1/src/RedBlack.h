@@ -56,43 +56,58 @@ namespace rbtree {
             printOneLevel(node,i);
     }
 
-    void leftRotate(Node * head , Node * x) {
+    void leftRotate(Node ** root, Node * x) {
         
         Node * y = x->right;
         Node * T2 = y->left;
-        Node * par = x->parent;
 
         y->left = x;
         x->right = T2;
+        x->right->parent = x;
 
-        if(x->parent->right==x){
-            x->parent->right =y;
-            y->parent = x->parent;
+        if(x->parent!=NULL){
+            if(x->parent->right==x){
+                x->parent->right =y;
+                y->parent = x->parent;
+            }
+            else if (x->parent->left==x){
+                x->parent->left =y;
+                y->parent = x->parent;
+            }
         }
-        else if (x->parent->left==x){
-            x->parent->left =y;
-            y->parent = x->parent;
+        else {
+            y->parent = NULL;
+            *root = y;
         }
         x->parent = y;
     }
 
-    void rightRotate(Node * head , Node * y) {
-        
+    void rightRotate(Node ** root, Node * y) {
         Node * x = y->left;
         Node * T2 = x->right;
 
         x->right = y;
         y->left = T2;
+        y->left->parent=y;
 
-        if(y->parent->right==y){
-            y->parent->right =x;
-            x->parent = y->parent;
+        if(y->parent!=NULL){
+            if(y->parent->right==y){
+                y->parent->right =x;
+                x->parent = y->parent;
+            }
+            else if (y->parent->left==y){
+                y->parent->left =x;
+                x->parent = y->parent;
+            }
         }
-        else if (y->parent->left==y){
-            y->parent->left =x;
-            x->parent = y->parent;
+        else{
+            x->parent=NULL;
+            *root = x;
+            // cout<<x->left->key<<" "<<*root->left->key<<endl;
+            // cout<<endl<<*root->key<<endl;
         }
         y->parent = x;
+        // cout<<x->left->key<<" "<<*root->left->key<<endl;
     }
 
     Node * createNode(int val) {
@@ -103,9 +118,9 @@ namespace rbtree {
 
 
     //Did not understand this. Check it out later
-    void insertFixup(Node * head, Node * z) {
+    void insertFixup(Node ** head, Node * z) {
         
-        while(z->parent->color == "RED"&&z->parent!=NULL) {  
+        while(z->parent->color == "RED"&&z->parent!=NULL) { 
             if(z->parent == z->parent->parent->left) {
                 Node * y = z->parent->parent->right;
                 if(y->color == "RED") {
@@ -116,19 +131,12 @@ namespace rbtree {
                 }
                 else if(z==z->parent->right) {
                     z = z->parent;
+                    cout<<"F"<<endl;
                     leftRotate(head,z);
-                    cout<<endl;
-                    inorder(head);
-                    levelOrder(head);
                     z->parent->color = "BLACK";
                     z->parent->parent->color = "RED";
-                    cout<<endl;
-                    inorder(head);
-                    levelOrder(head);
-                    cout<<"Stupidsss"<<endl;
-                    cout<<head->key<<endl;
                     rightRotate(head,z->parent->parent);
-                    cout<<head->key<<endl;
+                    // cout<<endl<<head->key<<endl<<endl;
                 }
             }
             else if(z->parent == z->parent->parent->right) {
@@ -154,35 +162,40 @@ namespace rbtree {
         }
     }
 
-    void insertNode(Node * head, Node * z) {
-        
-        Node * y = NULL;
-        Node * x = head;
+     void insertNode(Node** root,Node * head,Node * node, Node * parent, int d){
 
-        while(x!=NULL) {
-            y = x;
-            if(z->key<x->key) {
-                x = x->left;
+        if(head == NULL) {
+            if(d==0) {
+                parent->left = node;
+                node->parent = parent;
+                node->color = "RED";
+            }
+            else if(d==1) {
+                parent->right = node;
+                node->parent = parent;
+                node->color = "RED";
             }
             else {
-                x = x->right;
+                head = node;
+                head->color = "BLACK";
+                head->parent = NULL;
             }
+            return;
         }
 
-        z->parent = y;
-        
-        if(y==NULL) {
-            head = z;
+        if(node->key<head->key){
+            insertNode(root,head->left,node,head,0);
         }
-        else if(z->key<y->key) {
-            y->left = z;
+        else{
+            insertNode(root,head->right,node,head,1);
         }
-        else {
-            y->right = z;
-        }
-        z->color = "RED";
 
-        insertFixup(head, z);
+        // cout<<node->parent->key<<endl;
+        inorder(*root);
+        levelOrder(*root);
+    
+        insertFixup(root, node);
+
         cout<<"WTF"<<endl;
     } 
 }

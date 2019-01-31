@@ -19,6 +19,7 @@ int main() {
     root->color = "BLACK";
 
     Left->left = left1;
+    Left->right = left2;
     Left->key = 2;
     Left->color = "RED";
     Left->parent = root;
@@ -32,40 +33,42 @@ int main() {
     left1->color = "BLACK";
     left1->parent = Left;
 
-    // left2->left = right1;
-    // left2->right = right2;
-    // left2->key = 7;
-    // left2->color = "BLACK";
-    // left2->parent = Left;
+    left2->left = right1;
+    left2->right = right2;
+    left2->key = 7;
+    left2->color = "BLACK";
+    left2->parent = Left;
 
-    // right1->key = 5;
-    // right1->color = "RED";
-    // right1->parent = left2;
+    right1->key = 5;
+    right1->color = "RED";
+    right1->parent = left2;
 
-    // right2->key = 8;
-    // right2->color = "RED";
-    // right2->parent = left2;
+    right2->key = 8;
+    right2->color = "RED";
+    right2->parent = left2;
 
     right3->key = 15;
     right3->color = "RED";
     right3->parent = Right;
     
-    inorder(root);
-
-    levelOrder(root);
-    // leftRotate(Left);
+    // inorder(root);
+    // levelOrder(root);
+    // leftRotate(Right);
 
     // inorder(root);
     // levelOrder(root);
-
-    // rightRotate(left2);
-    // inorder(root);
-    // levelOrder(root);
-
-    insertNode(root,createNode(7));
+    // rightRotate(right3);
+  
+    inorder(root);
+    levelOrder(root);
+    insertNode(&root,root,createNode(4),NULL,-1);
 
     inorder(root);
     levelOrder(root);
+    insertNode(&root,root,createNode(100),NULL,-1);
+
+    // inorder(root);
+    // levelOrder(root);
 
     return 0;
 }
