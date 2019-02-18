@@ -57,13 +57,13 @@ namespace rbtree {
     }
 
     void leftRotate(Node ** root, Node * x) {
-        
+        cout<<x->key<<endl;
         Node * y = x->right;
         Node * T2 = y->left;
 
         y->left = x;
         x->right = T2;
-        x->right->parent = x;
+        if(x->right!=NULL) x->right->parent = x;
 
         if(x->parent!=NULL){
             if(x->parent->right==x){
@@ -88,7 +88,7 @@ namespace rbtree {
 
         x->right = y;
         y->left = T2;
-        y->left->parent=y;
+        if(y->left!=NULL) y->left->parent=y;
 
         if(y->parent!=NULL){
             if(y->parent->right==y){
@@ -119,46 +119,86 @@ namespace rbtree {
 
     //Did not understand this. Check it out later
     void insertFixup(Node ** head, Node * z) {
-        
-        while(z->parent->color == "RED"&&z->parent!=NULL) { 
-            if(z->parent == z->parent->parent->left) {
-                Node * y = z->parent->parent->right;
-                if(y->color == "RED") {
-                    z->parent->color = "BLACK" ;
-                    y->color = "BLACK";
-                    z->parent->parent->color = "RED";
-                    z = z->parent->parent;
-                }
-                else if(z==z->parent->right) {
-                    z = z->parent;
-                    cout<<"F"<<endl;
-                    leftRotate(head,z);
-                    z->parent->color = "BLACK";
-                    z->parent->parent->color = "RED";
-                    rightRotate(head,z->parent->parent);
-                    // cout<<endl<<head->key<<endl<<endl;
+        if(z->parent!=NULL){
+            if(z->parent->parent!=NULL){
+                while(z->parent->color == "RED") {
+                    if(z->parent == z->parent->parent->left) {
+                       
+                        Node * y = z->parent->parent->right;
+                        if(y==NULL){
+                            if(z==z->parent->right){
+                                leftRotate(head,z->parent);
+                                rightRotate(head,z->parent);
+                                z->left->color = "RED";
+                                z->right->color = "RED";
+                                z->color = "BLACK";
+                            }
+                            else{
+                                rightRotate(head,z->parent->parent);
+                                z->parent->color = "BLACK";
+                                z->parent->right->color = "RED";
+                            }
+                        }
+                        else{
+                            if(y->color == "RED") {
+                                z->parent->color = "BLACK" ;
+                                y->color = "BLACK";
+                                z->parent->parent->color = "RED";
+                                z = z->parent->parent;
+                            }
+                            else if(z==z->parent->right) {
+                                z = z->parent;
+                                leftRotate(head,z);
+                                z->parent->color = "BLACK";
+                                z->parent->parent->color = "RED";
+                                rightRotate(head,z->parent->parent);
+                            }
+                        }
+                    }
+                    else if(z->parent == z->parent->parent->right) {
+                        cout<<"W"<<endl;
+                        Node * y = z->parent->parent->left;
+                        if(y==NULL){
+                            if(z==z->parent->right){
+                                leftRotate(head,z->parent->parent);
+                                z->parent->color = "BLACK";
+                                z->parent->left->color = "RED";
+                            }
+                            else{                        
+                                rightRotate(head,z->parent);
+                                leftRotate(head,z->parent);
+                                z->left->color = "RED";
+                                z->right->color = "RED";
+                                z->color = "BLACK";
+                                cout<<"W"<<endl;
+                            }
+                        }
+                        else{
+                            if(y->color == "RED") {
+                                z->parent->color = "BLACK" ;
+                                y->color = "BLACK";
+                                z->parent->parent->color = "RED";
+                                z = z->parent->parent;
+                            }
+                            else if(z==z->parent->left) {
+                                z = z->parent;
+                                leftRotate(head,z);
+                                z->parent->color = "BLACK";
+                                z->parent->parent->color = "RED";
+                                rightRotate(head,z->parent->parent);
+                            }
+                        }
+                    }
+                    if(z->parent==NULL){
+                        z->color = "BLACK";
+                        break;
+                        if(z->parent->parent==NULL){
+                            z->color = "BLACK";
+                            break;
+                        }
+                    }
                 }
             }
-            else if(z->parent == z->parent->parent->right) {
-                cout<<"Stupid1s"<<endl;
-                Node * y = z->parent->parent->left;
-                if(y->color == "RED") {
-                    z->parent->color = "BLACK" ;
-                    y->color = "BLACK";
-                    z->parent->parent->color = "RED";
-                    z = z->parent->parent;
-                    cout<<"Stupi2ds"<<endl;
-                }
-                else if(z==z->parent->left) {
-                    z = z->parent;
-                    leftRotate(head,z);
-                    z->parent->color = "BLACK";
-                    z->parent->parent->color = "RED";
-                    cout<<"Stupids"<<endl;
-                    rightRotate(head,z->parent->parent);
-                }
-            }
-            cout<<"LOOPING"<<endl;
         }
     }
 
@@ -189,13 +229,6 @@ namespace rbtree {
         else{
             insertNode(root,head->right,node,head,1);
         }
-
-        // cout<<node->parent->key<<endl;
-        inorder(*root);
-        levelOrder(*root);
-    
         insertFixup(root, node);
-
-        cout<<"WTF"<<endl;
     } 
 }
