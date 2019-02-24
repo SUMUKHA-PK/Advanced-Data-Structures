@@ -205,4 +205,66 @@ namespace rbtree {
         }
         insertFixup(root, node);
     } 
+
+    Node * inorderSuccessor(Node* node){
+
+        Node * temp = node;
+        temp=temp->right;
+        while(temp->left!=NULL){
+            temp=temp->left;
+        }
+        return temp;
+    }
+
+    Node * BSTReplace(Node * node,int n){
+        if(node->left!=NULL && node->right!=NULL){
+            return inorderSuccessor(node);
+        }
+        else if(node->left==NULL&&node->right==NULL){
+            return NULL;
+        }
+        else if(node->left!=NULL){
+            return node->left;
+        }
+        else{
+            return node->right;
+        }
+    }
+
+    void deleteNode(Node* root,int n){
+        if(root==NULL)
+            return;
+        Node * temp = root, * temp1;
+        while(temp!=NULL){
+            temp1=temp;
+            if(n<temp->key){
+                temp=temp->left;
+            }
+            else if(n>temp->key){
+                temp=temp->right;
+            }
+            else{
+                break;
+            }
+        }
+        if(temp1->key!=n){
+            cout<<"No value found"<<endl;
+            return;
+        }
+
+        Node * node = BSTReplace(temp,n);
+        // The node to be deleted is a leaf node
+        if(node==NULL){
+            if(node->parent->color=="RED"){
+                cout<<"Ws";
+                delete node;
+            }
+            cout<<"W1s";
+        }
+        //Non leaf node
+        else{
+            cout<<"WTF"<<endl;
+        }
+    }
 }
+
