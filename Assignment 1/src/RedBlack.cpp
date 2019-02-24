@@ -101,9 +101,36 @@ int main() {
 
     inorder(root);
     levelOrder(root);
-    // insertNode(&root,root,createNode(100),NULL,-1);
-    // inorder(root);
-    // levelOrder(root);
+    insertNode(&root,root,createNode(100),NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+     insertNode(&root,root,createNode(200),NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+     insertNode(&root,root,createNode(7),NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+
+     insertNode(&root,root,createNode(9),NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+     insertNode(&root,root,createNode(1000),NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+
+     insertNode(&root,root,createNode(11),NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+
+     insertNode(&root,root,createNode(13),NULL,-1);
+    inorder(root);
+    levelOrder(root);
 
     return 0;
 }
