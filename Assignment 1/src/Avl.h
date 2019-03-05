@@ -1,3 +1,6 @@
+#ifndef _AVL_H
+#define _AVL_H 1
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -260,4 +263,65 @@ namespace avltree{
 
         return;
     }
-}
+
+
+    void displayTree(Node *ptr) {
+
+        std::cout<<ptr->key;
+        // if(ptr->color == RED)
+        //     std::cout<<"R";
+
+        // else if(ptr->color == BLACK)
+        //     std::cout<<"B";
+
+        if(ptr->left == NULL && ptr->right == NULL)
+            return;
+
+        else if(ptr->left != NULL && ptr->right == NULL) {
+
+            std::cout<<"(";
+            displayTree(ptr->left);
+            std::cout<<",X)";
+        }
+
+        else if(ptr->left == NULL && ptr->right != NULL) {
+
+            std::cout<<"(X,";
+            displayTree(ptr->right);
+            std::cout<<")";
+        }
+
+        else {
+            std::cout<<"(";
+            displayTree(ptr->left);
+            std::cout<<",";
+            displayTree(ptr->right);
+            std::cout<<")";
+        }
+    }
+
+}   // namespace avltree end.
+
+#endif  // _AVL_H
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
