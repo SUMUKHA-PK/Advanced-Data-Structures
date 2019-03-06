@@ -53,7 +53,8 @@ void postorder(avl_node *tree);
 
 Node* deleteNode(Node* root, int key);
 Node * minValueNode(Node* node);
-
+void leftRotate(Node * x);
+void rightRotate(Node * x);
 
 // Class Declaration
  
@@ -150,25 +151,21 @@ Node *case1(Node *root1, Node* root2) {
 
     int x = findSmallestKey(root2);
     
-    std::cout<<height(root2)<<std::endl;
-    
     deleteNode(root2, x);
 
     displayTree(root2);
 
-    std::cout<<height(root2)<<std::endl;
-
     int h = height(root2);
-
-
 
     int h1 = height(root1);
 
     Node* v = root1;
     Node *v_parent;
 
+    std::cout<<"h = "<<h<<", h1 = "<<h1<<std::endl;
+
     // In the internet, h1 > h+1 is given which I think is not correct. h1 >= h is correct. 
-    while(h1 >= h) {
+    while(h1 >= h + 1 ) {
 
         if(diff(v) == -1)
             h1 = h - 2;
@@ -200,11 +197,21 @@ Node *case1(Node *root1, Node* root2) {
 
     std::cout<<"\n\n\n"<<std::endl;
 
-    // Then this fucked up everything!
-    balance(root1);
+    leftRotate(root1->right);
+    
+    std::cout<<"\n\n\n"<<std::endl;
 
-    // That fuckup is demonstrated by this display.
     displayTree(root1);
+
+    std::cout<<"\n\n\n"<<std::endl;
+    
+
+
+    // // Then this fucked up everything!
+    // balance(root1);
+
+    // // That fuckup is demonstrated by this display.
+    // displayTree(root1);
 
     return root1;
 }
@@ -565,3 +572,46 @@ Node * minValueNode(Node* node)
   
     return current; 
 } 
+
+
+void leftRotate(Node * x) {
+        
+        Node * y = x->right;
+        Node * T2 = y->left;
+
+        y->left = x;
+        x->right = T2;
+
+        if(x->parent->right==x){
+            x->parent->right =y;
+            y->parent = x->parent;
+        }
+        else if (x->parent->left==x){
+            x->parent->left =y;
+            y->parent = x->parent;
+        }
+        x->parent = y;
+        x->height = max(height(x->left),height(x->right))+1;
+        y->height = max(height(y->left),height(y->right))+1;
+    }
+
+    void rightRotate(Node * y) {
+
+        Node * x = y->left;
+        Node * T2 = x->right;
+
+        x->right = y;
+        y->left = T2;
+
+        if(y->parent->right==y){
+            y->parent->right =x;
+            x->parent = y->parent;
+        }
+        else if (y->parent->left==y){
+            y->parent->left =x;
+            x->parent = y->parent;
+        }
+        y->parent = x;
+        x->height = max(height(x->left),height(x->right))+1;
+        y->height = max(height(y->left),height(y->right))+1;
+    }

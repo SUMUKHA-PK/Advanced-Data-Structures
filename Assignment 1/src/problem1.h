@@ -24,11 +24,19 @@ int findSmallestKey(Node* root) {
         return root->left->key;
 }
 
-void populateTree(Node *root, int treeNumber) {
+/******************************************************
+ * 
+ * The below functions are problem1 functions. 
+ * 
+ ******************************************************/
+
+Node* populateTree(Node *root, int treeNumber) {
 
     std::cout<<"Populate Tree-"<<treeNumber<<": "<<std::endl;
 
     int key, choice, flag = 0;
+
+    Node *newroot;
 
     if(treeNumber == 2) {
         std::cout<<"Smallest key of this tree should be larger than largest key of the other tree."<<std::endl;
@@ -44,45 +52,61 @@ void populateTree(Node *root, int treeNumber) {
         if(choice == 1) {
             std::cout<<"Enter a key: "<<std::endl;
             std::cin>>key;
-            std::cout<<"Before insertNode"<<std::endl;
             
             if(flag == 0) {
-                root->key = key;
+                newroot = createNode(key);
                 flag = 1;
             }
-            else 
-                insertNode(root, createNode(key), NULL, -1);
-            
-            std::cout<<"After insertNode"<<std::endl;
+            else
+                insertNode(&newroot, newroot, createNode(key), NULL, -1);
+
         }
         else if(choice == 2) {
-            return;
+            return newroot;
         }
+
         std::cout<<"Tree: "<<std::endl;
-        displayTree(root);
-        std::cout<<std::endl;
+        displayTree(newroot);
+        std::cout<<"\n\n\n"<<std::endl;
     }
+
+    return newroot;
 }
 
 
-// When height(root1) >= height(root2)
+
 Node *case1(Node *root1, Node* root2) {
 
+    displayTree(root1);
+    displayTree(root2);
+
+    std::cout<<"root1 = "<<root1<<", root2 = "<<root2<<std::endl;
+
     int x = findSmallestKey(root2);
-    deleteNode(root2, x, NULL, 1);
+
+    displayTree(root2);
+
+    // deleteNode(root2, x);
+    deleteNode(&root2, root2, x, NULL, -1);
 
     int h = height(root2);
 
     int h1 = height(root1);
-    Node* v = root1;
 
-    while(h1 > h+1) {
+    Node* v = root1;
+    Node *v_parent;
+
+    std::cout<<"h = "<<h<<", h1 = "<<h1<<std::endl;
+
+    // In the internet, h1 > h+1 is given which I think is not correct. h1 >= h is correct. 
+    while(h1 >= h + 1 ) {
 
         if(getBalance(v) == -1)
             h1 = h - 2;
         else
             h1 = h - 1;
-        
+
+        v_parent = v;    
         v = v->right;
     }
 
@@ -95,16 +119,36 @@ Node *case1(Node *root1, Node* root2) {
     // Right Subtree is t2 itself. 
     root3->right = root2;
 
-    // At this point, tree rooted at root3 is a valid AVL Tree.
-
-    // Cut the connection between v and it's parent in t1.
-    v->parent->right = NULL;
-
+    std::cout<<"\n\n\n"<<std::endl;
     displayTree(root3);
 
-    return NULL;
-}
+    v_parent->right = root3;
 
+    std::cout<<"\n\n\nfinal tree without balancing: "<<std::endl;
+
+    // This display is exactly what I wanted. 
+    displayTree(root1);
+
+    std::cout<<"\n\n\n"<<std::endl;
+
+    leftRotate(&root1, root1->right);
+    
+    std::cout<<"\n\n\n"<<std::endl;
+
+    displayTree(root1);
+
+    std::cout<<"\n\n\n"<<std::endl;
+    
+
+
+    // // Then this fucked up everything!
+    // balance(root1);
+
+    // // That fuckup is demonstrated by this display.
+    // displayTree(root1);
+
+    return root1;
+}
 
 Node* case2(Node *root1, Node *root2) {
     std::cout<<"Under construction!"<<std::endl;
@@ -124,6 +168,7 @@ Node* mergeTrees(Node* root1, Node* root2) {
     else
         return case2(root1, root2);
 }
+
 
 }   // namespace avltree end. 
 
