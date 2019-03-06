@@ -105,34 +105,34 @@ int main() {
     inorder(root);
     levelOrder(root);
 
-     insertNode(&root,root,createNode(200),NULL,-1);
+    insertNode(&root,root,createNode(200),NULL,-1);
     inorder(root);
     levelOrder(root);
 
-     insertNode(&root,root,createNode(7),NULL,-1);
-    inorder(root);
-    levelOrder(root);
-
-
-     insertNode(&root,root,createNode(9),NULL,-1);
-    inorder(root);
-    levelOrder(root);
-
-     insertNode(&root,root,createNode(1000),NULL,-1);
+    insertNode(&root,root,createNode(7),NULL,-1);
     inorder(root);
     levelOrder(root);
 
 
-     insertNode(&root,root,createNode(11),NULL,-1);
+    insertNode(&root,root,createNode(9),NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+    insertNode(&root,root,createNode(1000),NULL,-1);
     inorder(root);
     levelOrder(root);
 
 
-     insertNode(&root,root,createNode(13),NULL,-1);
+    insertNode(&root,root,createNode(11),NULL,-1);
     inorder(root);
     levelOrder(root);
 
-    deleteNode(root,1000);
+
+    insertNode(&root,root,createNode(13),NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+    // deleteNode(root,1000);
     inorder(root);
     levelOrder(root);
     return 0;

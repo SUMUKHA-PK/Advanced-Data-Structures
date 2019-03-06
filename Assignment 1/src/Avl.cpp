@@ -89,26 +89,26 @@ int main() {
     // inorder(root);
     // levelOrder(root);
 
-    std::cout<<"Stupids here"<<std::endl;
+    // std::cout<<"Stupids here"<<std::endl;
     Node *root = createNode(1);
 
-    std::cout<<"Stupids here"<<std::endl;
+    // std::cout<<"Stupids here"<<std::endl;
 
     displayTree(root);
 
-    std::cout<<"Stupids here"<<std::endl;
+    // std::cout<<"Stupids here"<<std::endl;
 
-    insertNode(root, createNode(2), NULL, -1);
+    insertNode(&root,root, createNode(2), NULL, -1);
     displayTree(root);
 
-    std::cout<<"Stupids here"<<std::endl;
+    // std::cout<<"Stupids here"<<std::endl;
 
 
-    insertNode(root, createNode(4), NULL, -1);
-    std::cout<<"Stupids here"<<std::endl;
+    insertNode(&root,root, createNode(4), NULL, -1);
+    // std::cout<<"Stupids here"<<std::endl;
     
     displayTree(root);
-    std::cout<<"Stupids here"<<std::endl;
+    // std::cout<<"Stupids here"<<std::endl;
 
     return 0;
 }

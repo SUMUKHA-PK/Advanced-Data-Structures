@@ -176,8 +176,7 @@ namespace rbtree {
         }
     }
 
-     void insertNode(Node** root,Node * head,Node * node, Node * parent, int d){
-
+    void insertNode(Node** root,Node * head,Node * node, Node * parent, int d){
         if(head == NULL) {
             if(d==0) {
                 parent->left = node;

@@ -60,46 +60,54 @@ namespace avltree{
         cout<<endl;
     }
 
-    void leftRotate(Node * x) {
-        
+    void leftRotate(Node ** root, Node * x) {
         Node * y = x->right;
         Node * T2 = y->left;
 
         y->left = x;
         x->right = T2;
+        if(x->right!=NULL) x->right->parent = x;
 
-        if(x->parent->right==x){
-            x->parent->right =y;
-            y->parent = x->parent;
+        if(x->parent!=NULL){
+            if(x->parent->right==x){
+                x->parent->right =y;
+                y->parent = x->parent;
+            }
+            else if (x->parent->left==x){
+                x->parent->left =y;
+                y->parent = x->parent;
+            }
         }
-        else if (x->parent->left==x){
-            x->parent->left =y;
-            y->parent = x->parent;
+        else {
+            y->parent = NULL;
+            *root = y;
         }
         x->parent = y;
-        x->height = max(height(x->left),height(x->right))+1;
-        y->height = max(height(y->left),height(y->right))+1;
     }
 
-    void rightRotate(Node * y) {
-
+    void rightRotate(Node ** root, Node * y) {
         Node * x = y->left;
         Node * T2 = x->right;
 
         x->right = y;
         y->left = T2;
+        if(y->left!=NULL) y->left->parent=y;
 
-        if(y->parent->right==y){
-            y->parent->right =x;
-            x->parent = y->parent;
+        if(y->parent!=NULL){
+            if(y->parent->right==y){
+                y->parent->right =x;
+                x->parent = y->parent;
+            }
+            else if (y->parent->left==y){
+                y->parent->left =x;
+                x->parent = y->parent;
+            }
         }
-        else if (y->parent->left==y){
-            y->parent->left =x;
-            x->parent = y->parent;
+        else{
+            x->parent=NULL;
+            *root = x;
         }
         y->parent = x;
-        x->height = max(height(x->left),height(x->right))+1;
-        y->height = max(height(y->left),height(y->right))+1;
     }
 
     Node * createNode(int key){
@@ -116,7 +124,7 @@ namespace avltree{
         return height(node->left) - height(node->right);
     }
 
-    void insertNode(Node * head,Node * node, Node * parent, int d){
+    void insertNode(Node **root, Node * head,Node * node, Node * parent, int d){
         if(head == NULL) {
             cout<<"W1"<<" "<<node->key<<endl;
             if(d==0) {
@@ -132,10 +140,10 @@ namespace avltree{
         }
 cout<<"W"<<" "<<node->key<<endl;
         if(node->key<head->key){
-            insertNode(head->left,node,head,0);
+            insertNode(root,head->left,node,head,0);
         }
         else{
-            insertNode(head->right,node,head,1);
+            insertNode(root,head->right,node,head,1);
         }
 
         head->height = 1 + max(height(head->left),height(head->right));
@@ -143,21 +151,21 @@ cout<<"W"<<" "<<node->key<<endl;
         int balance = getBalance(head);
         
         if(balance>1 && node->key<head->left->key) {
-            rightRotate(head);
+            rightRotate(root,head);
             return;
         }
         if(balance<-1 && node->key>head->right->key) {
-            leftRotate(head);
+            leftRotate(root,head);
             return;
         }
         if(balance>1 && node->key>head->left->key){
-            leftRotate(head->left);
-            rightRotate(head);
+            leftRotate(root,head->left);
+            rightRotate(root,head);
             return;
         }
         if(balance<-1 && node->key<head->right->key) {
-            rightRotate(head->right);
-            leftRotate(head);
+            rightRotate(root,head->right);
+            leftRotate(root,head);
             return;
         }
         return;
@@ -173,14 +181,14 @@ cout<<"W"<<" "<<node->key<<endl;
         return node;
     }
 
-    void deleteNode(Node * head,int key, Node * parent, int d) {
+    void deleteNode(Node ** root,Node * head,int key, Node * parent, int d) {
         if(head==NULL)
             return;
         if(key<head->key) {
-            deleteNode(head->left,key,head,0);
+            deleteNode(root,head->left,key,head,0);
         }
         else if(key>head->key){
-            deleteNode(head->right,key,head,1);
+            deleteNode(root,head->right,key,head,1);
         }
         else{
             if(head->left==NULL&&head->right==NULL){
@@ -228,7 +236,7 @@ cout<<"W"<<" "<<node->key<<endl;
                 Node * nodeTemp = new Node;
                 nodeTemp = inorderSuccessor(head->right,n);
                 head->key = nodeTemp->key;
-                deleteNode(head->right,nodeTemp->key,head->parent,n); 
+                deleteNode(root,head->right,nodeTemp->key,head->parent,n); 
             }
         }
 
@@ -240,24 +248,24 @@ cout<<"W"<<" "<<node->key<<endl;
         int balance = getBalance(head);
 
         if(balance>1 && getBalance(head->left)>=0){
-            rightRotate(head);
+            rightRotate(root,head);
             return;
         }
 
         if(balance>1 && getBalance(head->left)<0){
-            leftRotate(head->left);
-            rightRotate(head);
+            leftRotate(root,head->left);
+            rightRotate(root,head);
             return;
         }
 
         if(balance<-1 && getBalance(head->right)<=0) {
-            leftRotate(head);
+            leftRotate(root,head);
             return;
         }
         
         if(balance<-1 && getBalance(head->right)>0) {
-            rightRotate(head->right);
-            leftRotate(head);
+            rightRotate(root,head->right);
+            leftRotate(root,head);
             return;
         }
 
