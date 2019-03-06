@@ -8,17 +8,8 @@ using namespace avltree;
 
 int main(int argc, char **argv) {
 
-    Node* root1 = new Node;
-    Node* root2 = new Node;
-
-    populateTree(root1, 1);
-    populateTree(root2, 2);
-
-    std::cout<<"Tree-1: "<<std::endl;
-    displayTree(root1);
-
-    std::cout<<"Tree-2: "<<std::endl;
-    displayTree(root2);
+    Node* root1 = populateTree(NULL, 1);
+    Node* root2 = populateTree(NULL, 2);
 
     std::cout<<"\nMerging trees."<<std::endl;
 

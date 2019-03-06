@@ -77,11 +77,6 @@ Node* populateTree(Node *root, int treeNumber) {
 
 Node *case1(Node *root1, Node* root2) {
 
-    displayTree(root1);
-    displayTree(root2);
-
-    std::cout<<"root1 = "<<root1<<", root2 = "<<root2<<std::endl;
-
     int x = findSmallestKey(root2);
 
     displayTree(root2);
@@ -129,13 +124,14 @@ Node *case1(Node *root1, Node* root2) {
     // This display is exactly what I wanted. 
     displayTree(root1);
 
-    std::cout<<"\n\n\n"<<std::endl;
+    std::cout<<"\n\n\n"<<root1->key<<std::endl;
 
-    leftRotate(&root1, root1->right);
+    leftRotate(&root1, root1);
     
-    std::cout<<"\n\n\n"<<std::endl;
+    std::cout<<"\n\n\n"<<root1->key<<std::endl;
+    
 
-    displayTree(root1);
+    displayTree(root1->right);
 
     std::cout<<"\n\n\n"<<std::endl;
     
