@@ -108,6 +108,10 @@ int main() {
     // std::cout<<"Stupids here"<<std::endl;
     
     displayTree(root);
+
+    deleteNode(&root,root,1,NULL,-1);
+
+    displayTree(root);
     // std::cout<<"Stupids here"<<std::endl;
 
     return 0;

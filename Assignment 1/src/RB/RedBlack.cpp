@@ -132,7 +132,7 @@ int main() {
     inorder(root);
     levelOrder(root);
 
-    // deleteNode(root,1000);
+    deleteNode(root,1000);
     inorder(root);
     levelOrder(root);
     return 0;
