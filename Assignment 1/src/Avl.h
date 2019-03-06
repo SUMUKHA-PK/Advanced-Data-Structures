@@ -117,8 +117,8 @@ namespace avltree{
     }
 
     void insertNode(Node * head,Node * node, Node * parent, int d){
-
         if(head == NULL) {
+            cout<<"W1"<<" "<<node->key<<endl;
             if(d==0) {
                 parent->left = node;
                 node->parent = parent;
@@ -130,7 +130,7 @@ namespace avltree{
             else head = node;
             return;
         }
-
+cout<<"W"<<" "<<node->key<<endl;
         if(node->key<head->key){
             insertNode(head->left,node,head,0);
         }
