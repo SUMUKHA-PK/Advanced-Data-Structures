@@ -201,6 +201,7 @@ namespace avltree{
                 else{
                     * root = NULL;
                     delete head;
+                    return;
                 }
             }
             else if(head->left==NULL){
@@ -224,6 +225,7 @@ namespace avltree{
                     * root = head->right;
                     // root->parent = NULL;
                     delete head;
+                    return;
                 }
             }
             else if(head->right==NULL){
@@ -247,6 +249,7 @@ namespace avltree{
                     * root = head->left;
                     // root->parent = NULL;
                     delete head;
+                    return;
                 }
             }
             else {
@@ -261,6 +264,7 @@ namespace avltree{
         if(head==NULL)
             return;
 
+        cout<<"QW"<<endl;
         head->height = 1 + max(height(head->left),height(head->right));
 
         int balance = getBalance(head);
