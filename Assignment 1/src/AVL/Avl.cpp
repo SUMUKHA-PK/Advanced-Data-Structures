@@ -104,7 +104,7 @@ int main() {
     // std::cout<<"Stupids here"<<std::endl;
 
 
-    insertNode(&root,root, createNode(4), NULL, -1);
+    deleteNode(&root, root, 1, NULL, -1);
     // std::cout<<"Stupids here"<<std::endl;
     
     displayTree(root);

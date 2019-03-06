@@ -79,10 +79,12 @@ Node *case1(Node *root1, Node* root2) {
 
     int x = findSmallestKey(root2);
 
-    displayTree(root2);
+    std::cout<<"x = "<<x<<std::endl;
 
     // deleteNode(root2, x);
-    deleteNode(&root2, root2, x, NULL, -1);
+    deleteNode(&root2, root2, x , NULL, -1);
+
+    std::cout<<"Delete is getting fucked"<<std::endl;
 
     int h = height(root2);
 
@@ -90,8 +92,6 @@ Node *case1(Node *root1, Node* root2) {
 
     Node* v = root1;
     Node *v_parent;
-
-    std::cout<<"h = "<<h<<", h1 = "<<h1<<std::endl;
 
     // In the internet, h1 > h+1 is given which I think is not correct. h1 >= h is correct. 
     while(h1 >= h + 1 ) {
@@ -114,34 +114,9 @@ Node *case1(Node *root1, Node* root2) {
     // Right Subtree is t2 itself. 
     root3->right = root2;
 
-    std::cout<<"\n\n\n"<<std::endl;
-    displayTree(root3);
-
     v_parent->right = root3;
 
-    std::cout<<"\n\n\nfinal tree without balancing: "<<std::endl;
-
-    // This display is exactly what I wanted. 
-    displayTree(root1);
-
-    std::cout<<"\n\n\n"<<root1->key<<std::endl;
-
     leftRotate(&root1, root1);
-    
-    std::cout<<"\n\n\n"<<root1->key<<std::endl;
-    
-
-    displayTree(root1->right);
-
-    std::cout<<"\n\n\n"<<std::endl;
-    
-
-
-    // // Then this fucked up everything!
-    // balance(root1);
-
-    // // That fuckup is demonstrated by this display.
-    // displayTree(root1);
 
     return root1;
 }
