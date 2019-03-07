@@ -197,6 +197,7 @@ namespace avltree{
                     else {
                         head->parent->left=NULL;
                     }
+                    delete head;
                 }
                 else{
                     * root = NULL;
@@ -222,8 +223,8 @@ namespace avltree{
                     }
                 }
                 else{
+                    head->right->parent = NULL;
                     * root = head->right;
-                    // root->parent = NULL;
                     delete head;
                     return;
                 }
@@ -246,12 +247,13 @@ namespace avltree{
                     }
                 }
                 else{
+                    head->left->parent = NULL;
                     * root = head->left;
-                    // root->parent = NULL;
                     delete head;
                     return;
                 }
             }
+            // n is set to 1, because it always is right, else if there is a left, it changes
             else {
                 int n = 1;
                 Node * nodeTemp = new Node;
@@ -263,8 +265,7 @@ namespace avltree{
 
         if(head==NULL)
             return;
-
-        cout<<"QW"<<endl;
+            
         head->height = 1 + max(height(head->left),height(head->right));
 
         int balance = getBalance(head);

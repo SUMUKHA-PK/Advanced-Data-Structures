@@ -132,7 +132,25 @@ int main() {
     inorder(root);
     levelOrder(root);
 
-    deleteNode(root,1000);
+    cout<<"Insertion done"<<endl;
+
+    deleteNode(&root,root,4,NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+    deleteNode(&root,root,1,NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+    deleteNode(&root,root,10,NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+    deleteNode(&root,root,40,NULL,-1);
+    inorder(root);
+    levelOrder(root);
+
+    deleteNode(&root,root,6,NULL,-1);
     inorder(root);
     levelOrder(root);
     return 0;
