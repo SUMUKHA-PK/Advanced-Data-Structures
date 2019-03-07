@@ -172,7 +172,7 @@ Node* case2(Node *root1, Node *root2) {
 
 
 // t2 - an AVL Tree
-// t1 - an AVL Tree whose largest key is lessthan smallest key of t2. 
+// t1 - an AVL Tree whose largest key is less than smallest key of t2. 
 
 // root1 - root of t1
 // root2 - root of t2

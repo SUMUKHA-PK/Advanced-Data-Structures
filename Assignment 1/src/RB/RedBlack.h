@@ -1,3 +1,7 @@
+#ifndef _REDBLACK_H
+#define _REDBLACK_H
+
+
 using namespace std;
 
 namespace rbtree {
@@ -32,6 +36,21 @@ namespace rbtree {
 
         return 1 + max(lh,rh);
     }
+
+    int blackHeight(Node *head) {
+
+        int blackheight = 0;
+
+        while(head != NULL) {
+            if(head->color == "BLACK")
+                blackheight++;
+            
+            head = head->left;
+        }
+
+        return blackheight;
+    }
+
 
     void printOneLevel(Node * node, int level) {
 
@@ -507,5 +526,44 @@ namespace rbtree {
             return;
     }
 
+
+    void displayTree(Node *ptr) {
+
+        std::cout<<ptr->key;
+        if(ptr->color == "RED")
+            std::cout<<"R";
+
+        else if(ptr->color == "BLACK")
+            std::cout<<"B";
+
+        if(ptr->left == NULL && ptr->right == NULL)
+            return;
+
+        else if(ptr->left != NULL && ptr->right == NULL) {
+
+            std::cout<<"(";
+            displayTree(ptr->left);
+            std::cout<<",X)";
+        }
+
+        else if(ptr->left == NULL && ptr->right != NULL) {
+
+            std::cout<<"(X,";
+            displayTree(ptr->right);
+            std::cout<<")";
+        }
+
+        else {
+            std::cout<<"(";
+            displayTree(ptr->left);
+            std::cout<<",";
+            displayTree(ptr->right);
+            std::cout<<")";
+        }
+    }
+
+
 }  // namespace rbtree
+
+#endif // _REDBLACK_H
 
