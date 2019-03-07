@@ -190,43 +190,66 @@ namespace avltree{
         }
         else{
             if(head->left==NULL&&head->right==NULL){
-                if(head->parent->right==head){
-                    head->parent->right=NULL;
+                if(head->parent!=NULL){
+                    if(head->parent->right==head){
+                        head->parent->right=NULL;
+                    }
+                    else {
+                        head->parent->left=NULL;
+                    }
                 }
-                else {
-                    head->parent->left=NULL;
+                else{
+                    * root = NULL;
+                    delete head;
+                    return;
                 }
             }
             else if(head->left==NULL){
-                if(head->parent->right==head){
-                    head->parent->right = head->right;
-                    head->right->parent = head->parent;
-                    Node * temp = head;
-                    head=head->right;
-                    delete temp;
+                if(head->parent!=NULL){
+                    if(head->parent->right==head){
+                        head->parent->right = head->right;
+                        head->right->parent = head->parent;
+                        Node * temp = head;
+                        head=head->right;
+                        delete temp;
+                    }
+                    else if(head->parent->left==head){
+                        head->parent->left = head->right;
+                        head->right->parent = head->parent;
+                        Node * temp = head;
+                        head=head->right;
+                        delete temp;
+                    }
                 }
-                else if(head->parent->left==head){
-                    head->parent->left = head->right;
-                    head->right->parent = head->parent;
-                    Node * temp = head;
-                    head=head->right;
-                    delete temp;
+                else{
+                    * root = head->right;
+                    // root->parent = NULL;
+                    delete head;
+                    return;
                 }
             }
             else if(head->right==NULL){
-                if(head->parent->right==head){
-                    head->parent->right = head->left;
-                    head->left->parent = head->parent;
-                    Node * temp = head;
-                    head=head->left;
-                    delete temp;
+                if(head->parent!=NULL){
+                    if(head->parent->right==head){
+                        head->parent->right = head->left;
+                        head->left->parent = head->parent;
+                        Node * temp = head;
+                        head=head->left;
+                        delete temp;
+                    }
+                    else if(head->parent->left==head){
+                        head->parent->left = head->left;
+                        head->left->parent = head->parent;
+                        Node * temp = head;
+                        head=head->left;
+                        delete temp;
+                    }
                 }
-                else if(head->parent->left==head){
-                    head->parent->left = head->left;
-                    head->left->parent = head->parent;
-                    Node * temp = head;
-                    head=head->left;
-                    delete temp;
+                else{
+                    * root = head->left;
+                    // root->parent = NULL;
+                    delete head;
+                    return;
                 }
             }
             else {
@@ -240,6 +263,7 @@ namespace avltree{
 
         if(head==NULL)
             return;
+
 
         head->height = 1 + max(height(head->left),height(head->right));
 

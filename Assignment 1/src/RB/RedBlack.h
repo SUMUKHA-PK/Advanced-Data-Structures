@@ -57,6 +57,11 @@ namespace rbtree {
         cout<<endl;
     }
 
+/*
+    Left rotate at node x. 
+    Usage : leftRotate(&root,nodeToBeRotated);
+*/
+
     void leftRotate(Node ** root, Node * x) {
         Node * y = x->right;
         Node * T2 = y->left;
@@ -81,6 +86,11 @@ namespace rbtree {
         }
         x->parent = y;
     }
+
+/*
+    Right rotate at node x. 
+    Usage : rightRotate(&root,nodeToBeRotated); root is Node*
+*/
 
     void rightRotate(Node ** root, Node * y) {
         Node * x = y->left;
@@ -113,18 +123,29 @@ namespace rbtree {
         return node;
     }
 
+/*
+    Balance the RB Tree.
+    Usage: insertFixup(&root,nodeToBeFixed); (root is Node *)
+*/
+
     void insertFixup(Node ** head, Node * z) {
+        // If the fixup has reached head node or the one below end the fixup process
         if(z->parent!=NULL){
             if(z->parent->parent!=NULL){
+                // Continue only if the current and parents colour is RED
                 while(z->parent->color == "RED") {
+                    // If uncle is to the left of grandpa
                     if(z->parent == z->parent->parent->left) {
                         Node * y = z->parent->parent->right;
+                        // Operate only if uncle of node exists
+                        // The case where nodes parent and uncle are red.
                         if(y!=NULL&&y->color=="RED"){
                             z->parent->color = "BLACK" ;
                             y->color = "BLACK";
                             z->parent->parent->color = "RED";
                             z = z->parent->parent;
                         }
+                        //Since there is no uncle, move parent and balance colours
                         else{
                             if(z==z->parent->right){
                                 leftRotate(head,z->parent);
@@ -140,6 +161,7 @@ namespace rbtree {
                             }
                         }
                     }
+                    // If uncle is to the right of grandpa
                     else if(z->parent == z->parent->parent->right) {
                         Node * y = z->parent->parent->left;
                         if(y!=NULL&&y->color=="RED"){
@@ -163,6 +185,7 @@ namespace rbtree {
                             }    
                         }
                     }
+                    //Corner case check: If the traversal reaches head node, colour it black and exit
                     if(z->parent==NULL){
                         z->color = "BLACK";
                         break;
@@ -176,6 +199,12 @@ namespace rbtree {
         }
     }
 
+/*
+    Insert node at location.
+    Usage : insertNode(&root,root,node,NULL,-1);
+    d -> decider, starts at -1, used to attach parent to the node
+    parent -> parent of node, decided later, pass NULL in beginning
+*/
     void insertNode(Node** root,Node * head,Node * node, Node * parent, int d){
         if(head == NULL) {
             if(d==0) {
@@ -230,6 +259,9 @@ namespace rbtree {
         }
     }
 
+/*
+    Delete node with val 'n'
+*/
     void deleteNode(Node* root,int n){
         if(root==NULL)
             return;

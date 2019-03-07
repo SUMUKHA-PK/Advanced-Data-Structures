@@ -17,7 +17,6 @@ int main(int argc, char **argv) {
     std::cout<<"\n\nTree-2: \n"<<std::endl;
     displayTree(root2);
 
-
     std::cout<<"\n\nMerging trees...."<<std::endl;
 
     Node *root = mergeTrees(root1, root2);
