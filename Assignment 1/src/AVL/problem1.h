@@ -92,10 +92,6 @@ Node *case1(Node *root1, Node* root2) {
     // deleteNode(root2, x);
     deleteNode(&root2, root2, x1 , NULL, -1);
 
-    std::cout<<"After removing x\n\n"<<std::endl;
-    displayTree(root2);
-
-
     // Height of the new AVL tree after deleting x.
     int h = height(root2);
 
@@ -106,9 +102,6 @@ Node *case1(Node *root1, Node* root2) {
     Node* v_parent;
 
     int x = 0;
-
-    std::cout<<"h1 = "<<h1<<std::endl;
-    std::cout<<"h = "<<h<<std::endl;
 
     while(x < h1 - h) {
         v=v->right;
@@ -141,21 +134,40 @@ Node *case1(Node *root1, Node* root2) {
    
     displayTree(root1);
 
-    leftRotate(&root1, v_parent);
-
     Node *current = v_parent;
+    Node *node = v_parent->right;
 
-    // insertNode(&root1, root1, createNode(v->key), NULL, -1);
+    while(current != NULL) {
+
+        if(getBalance(current) > 1 && node->key < current->left->key) {
+            rightRotate(&root1, current);
+        }
+
+        else if(getBalance(current) < -1 && node->key > current->right->key) {
+            leftRotate(&root1, current);
+        }
+
+        else if(getBalance(current) > 1 && node->key > current->left->key) {
+            leftRotate(&root1, current->left);
+            rightRotate(&root1, current);
+        }
+
+        else if(getBalance(current) < -1 && node->key < current->right->key) {
+            rightRotate(&root1, current->right);
+            leftRotate(&root1, current);
+        }
+
+        current = current->parent;
+    }
 
     return root1;
 }
 
 Node* case2(Node *root1, Node *root2) {
    
-    int x = findLargestKey(root1);
-    std::cout<<"x = "<<x<<std::endl;
+    int x1 = findLargestKey(root1);
 
-    deleteNode(&root1, root1, x, NULL, -1);
+    deleteNode(&root1, root1, x1, NULL, -1);
 
     int h = height(root1);
     int h2 = height(root2);
@@ -163,24 +175,23 @@ Node* case2(Node *root1, Node *root2) {
     Node *v = root2;
     Node *v_parent;
 
-    while(h2 >= h + 1) {
+    int x = 0;
 
-        if(getBalance(v) == 1)
-            h2 = h - 2;
-        else
-            h2 = h - 1;
-
-        v_parent = v;
+    while(x < h2 - h) {
         v = v->left;
+        x++;
     }
 
-    Node *root3 = createNode(x);
+    Node *root3 = createNode(x1);
 
     root3->right = v;
+    v->parent = root3;
 
     root3->left = root1;
+    root1->parent = root3;
 
     v_parent->left = root3;
+    root3->parent = v_parent;
 
     // rightRotate(&root2, root2);
 
