@@ -14,6 +14,7 @@ namespace avltree {
  *
  ***********************************************************/
 
+
     // Assumes root is not NULL
 int findSmallestKey(Node* root) {
 
@@ -88,31 +89,45 @@ Node *case1(Node *root1, Node* root2) {
 
     int x = findSmallestKey(root2);
 
-    std::cout<<"x = "<<x<<std::endl;
-
     // deleteNode(root2, x);
     deleteNode(&root2, root2, x , NULL, -1);
 
-    std::cout<<"Delete is getting fucked"<<std::endl;
+    std::cout<<"After removing x\n\n"<<std::endl;
+    displayTree(root2);
 
+
+    // Height of the new AVL tree after deleting x.
     int h = height(root2);
 
+    // This has to reduced till we get a sub-tree which is balanced with root2 tree.
     int h1 = height(root1);
 
     Node* v = root1;
-    Node *v_parent;
+    Node* v_parent;
 
-    // In the internet, h1 > h+1 is given which I think is not correct. h1 >= h is correct. 
-    while(h1 > h + 1 ) {
+    x = 0;
 
-        if(getBalance(v) == -1)
-            h1 = h - 2;
+    std::cout<<"h1 = "<<h1<<std::endl;
+    std::cout<<"h = "<<h<<std::endl;
+
+    while(x <= h1 - h) {
+
+        if(getBalance(v) == 1 || getBalance(v) == 0)
+            x = x + 1;
+        
         else
-            h1 = h - 1;
+            x = x + 2;
 
-        v_parent = v;    
+
+        v_parent = v;
+        std::cout<<"v_parent = "<<v_parent<<std::endl;    
         v = v->right;
+        std::cout<<"v = "<<v<<std::endl;
+        
     }
+
+    std::cout<<"Tree rooted at v = "<<std::endl;
+    displayTree(v);
 
     // Root of the new tree. 
     Node* root3 = createNode(x);
@@ -123,12 +138,20 @@ Node *case1(Node *root1, Node* root2) {
     // Right Subtree is t2 itself. 
     root3->right = root2;
 
+    std::cout<<"Intermediate tree: \n\n"<<std::endl;
+    displayTree(root3);
+
     v_parent->right = root3;
 
-    std::cout<<"\n\n\nfuck: "<<std::endl;
+    std::cout<<"\n\n"<<std::endl;
+   
     displayTree(root1);
 
-    leftRotate(&root1, root1);
+    leftRotate(&root1, v_parent);
+
+    Node *current = v_parent;
+
+    // insertNode(&root1, root1, createNode(v->key), NULL, -1);
 
     return root1;
 }
@@ -148,7 +171,7 @@ Node* case2(Node *root1, Node *root2) {
 
     while(h2 >= h + 1) {
 
-        if(getBalance(v) == -1)
+        if(getBalance(v) == 1)
             h2 = h - 2;
         else
             h2 = h - 1;
@@ -165,7 +188,9 @@ Node* case2(Node *root1, Node *root2) {
 
     v_parent->left = root3;
 
-    rightRotate(&root2, root2);
+    // rightRotate(&root2, root2);
+
+    insertNode(&root2, root2, createNode(v->key), NULL, -1);
 
     return root2;
 }

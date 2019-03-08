@@ -449,6 +449,13 @@ namespace rbtree {
                 if(head->parent!=NULL){
                     Node *u = head;
                     Node *v = head->right;
+                    Node * sibling;
+                    if(head->parent->right==head){
+                        sibling = head->parent->left;
+                    }
+                    else
+                        sibling = head->parent->right;
+    
                     int col = 0;
                     if(u->color=="RED"){
                         col=1;
@@ -468,7 +475,7 @@ namespace rbtree {
                         delete temp;
                     }
                     // If the deleted node is RED, it is already balanced
-                    if(col==0){
+                    if(col==0 && sibling == NULL){
                         deleteFixup(root,head);
                     }
                 }
@@ -502,7 +509,7 @@ namespace rbtree {
                         head=head->left;
                         delete temp;
                     }
-                    if(col==0){
+                    if(col==0 && sibling == NULL){
                         deleteFixup(root,head);
                     }
                 }
