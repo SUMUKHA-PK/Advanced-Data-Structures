@@ -51,7 +51,6 @@ namespace rbtree {
         return blackheight;
     }
 
-
     void printOneLevel(Node * node, int level) {
 
         if(node == NULL) {
@@ -73,6 +72,40 @@ namespace rbtree {
         for(int i=1;i<=h;i++) 
             printOneLevel(node,i);
         cout<<endl;
+    }
+
+    void displayTree(Node *ptr) {
+        std::cout<<ptr->key;
+        if(ptr->color == "RED")
+            std::cout<<"R";
+
+        else if(ptr->color == "BLACK")
+            std::cout<<"B";
+
+        if(ptr->left == NULL && ptr->right == NULL)
+            return;
+
+        else if(ptr->left != NULL && ptr->right == NULL) {
+
+            std::cout<<"(";
+            displayTree(ptr->left);
+            std::cout<<",X)";
+        }
+
+        else if(ptr->left == NULL && ptr->right != NULL) {
+
+            std::cout<<"(X,";
+            displayTree(ptr->right);
+            std::cout<<")";
+        }
+
+        else {
+            std::cout<<"(";
+            displayTree(ptr->left);
+            std::cout<<",";
+            displayTree(ptr->right);
+            std::cout<<")";
+        }
     }
 
 /*
@@ -532,43 +565,6 @@ namespace rbtree {
         if(head==NULL)
             return;
     }
-
-
-    void displayTree(Node *ptr) {
-
-        std::cout<<ptr->key;
-        if(ptr->color == "RED")
-            std::cout<<"R";
-
-        else if(ptr->color == "BLACK")
-            std::cout<<"B";
-
-        if(ptr->left == NULL && ptr->right == NULL)
-            return;
-
-        else if(ptr->left != NULL && ptr->right == NULL) {
-
-            std::cout<<"(";
-            displayTree(ptr->left);
-            std::cout<<",X)";
-        }
-
-        else if(ptr->left == NULL && ptr->right != NULL) {
-
-            std::cout<<"(X,";
-            displayTree(ptr->right);
-            std::cout<<")";
-        }
-
-        else {
-            std::cout<<"(";
-            displayTree(ptr->left);
-            std::cout<<",";
-            displayTree(ptr->right);
-            std::cout<<")";
-        }
-    }
-
 
 }  // namespace rbtree
 
