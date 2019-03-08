@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
 
     std::cout<<"\n\nNew merged tree: \n"<<std::endl;
     displayTree(root);
-
+    inorder(root);
     std::cout<<"\n\n"<<std::endl;
 
     return 0;

@@ -87,10 +87,10 @@ Node* populateTree(Node *root, int treeNumber) {
 
 Node *case1(Node *root1, Node* root2) {
 
-    int x = findSmallestKey(root2);
+    int x1 = findSmallestKey(root2);
 
     // deleteNode(root2, x);
-    deleteNode(&root2, root2, x , NULL, -1);
+    deleteNode(&root2, root2, x1 , NULL, -1);
 
     std::cout<<"After removing x\n\n"<<std::endl;
     displayTree(root2);
@@ -105,43 +105,37 @@ Node *case1(Node *root1, Node* root2) {
     Node* v = root1;
     Node* v_parent;
 
-    x = 0;
+    int x = 0;
 
     std::cout<<"h1 = "<<h1<<std::endl;
     std::cout<<"h = "<<h<<std::endl;
 
-    while(x <= h1 - h) {
-
-        if(getBalance(v) == 1 || getBalance(v) == 0)
-            x = x + 1;
-        
-        else
-            x = x + 2;
-
-
-        v_parent = v;
-        std::cout<<"v_parent = "<<v_parent<<std::endl;    
-        v = v->right;
-        std::cout<<"v = "<<v<<std::endl;
-        
+    while(x < h1 - h) {
+        v=v->right;
+        x++;
     }
+    v_parent = v->parent;
 
     std::cout<<"Tree rooted at v = "<<std::endl;
     displayTree(v);
 
     // Root of the new tree. 
-    Node* root3 = createNode(x);
+    Node* root3 = createNode(x1);
 
     // Left Subtree is rooted at v. 
     root3->left = v;
-
+    v->parent = root3;
+    
     // Right Subtree is t2 itself. 
     root3->right = root2;
+    root2->parent=root3;
 
+    cout<<root3->key<<endl;
     std::cout<<"Intermediate tree: \n\n"<<std::endl;
     displayTree(root3);
 
     v_parent->right = root3;
+    root3->parent = root3;
 
     std::cout<<"\n\n"<<std::endl;
    
