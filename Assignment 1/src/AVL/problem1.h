@@ -84,13 +84,23 @@ Node* populateTree(Node *root, int treeNumber) {
 }
 
 
-
+// Tree1 is taller than Tree2
 Node *case1(Node *root1, Node* root2) {
+
+    std::cout<<"Case1: Tree1 is taller than Tree2"<<std::endl;
+
+    // If Tree2 is NULL, then root1 is the required tree. 
+    if(root2 == NULL)
+        return root1;
 
     int x1 = findSmallestKey(root2);
 
     // deleteNode(root2, x);
     deleteNode(&root2, root2, x1 , NULL, -1);
+
+    std::cout<<"Tree 2 after deletion of smallest key : "<<std::endl;
+    displayTree(root2);
+    std::cout<<"\n"<<std::endl;
 
     // Height of the new AVL tree after deleting x.
     int h = height(root2);
@@ -104,38 +114,46 @@ Node *case1(Node *root1, Node* root2) {
     int x = 0;
 
     while(x < h1 - h) {
+        v_parent = v;
         v=v->right;
         x++;
     }
-    v_parent = v->parent;
 
-    std::cout<<"Tree rooted at v = "<<std::endl;
-    displayTree(v);
-
+    if(v != NULL) {
+         std::cout<<"The following tree is balanced with Tree 2 : "<<std::endl;
+         displayTree(v);
+         std::cout<<"\n"<<std::endl;
+    }
+    
     // Root of the new tree. 
     Node* root3 = createNode(x1);
 
     // Left Subtree is rooted at v. 
     root3->left = v;
-    v->parent = root3;
+    if(v != NULL)
+        v->parent = root3;
     
     // Right Subtree is t2 itself. 
     root3->right = root2;
-    root2->parent=root3;
+    
+    if(root2 != NULL)
+        root2->parent=root3;
 
-    cout<<root3->key<<endl;
-    std::cout<<"Intermediate tree: \n\n"<<std::endl;
+    std::cout<<"Tree constructed by taking Smallest key of Tree2, Modified Tree2 and corresponding balanced tree removed from Tree 1: "<<std::endl;
     displayTree(root3);
+    std::cout<<"\n"<<std::endl;
 
     v_parent->right = root3;
-    root3->parent = root3;
+    root3->parent = v_parent;
 
-    std::cout<<"\n\n"<<std::endl;
-   
+    std::cout<<"Merged Tree - may not be an AVL"<<std::endl;
     displayTree(root1);
+    std::cout<<"\n"<<std::endl;
 
     Node *current = v_parent;
     Node *node = v_parent->right;
+    
+    if(node != NULL) {
 
     while(current != NULL) {
 
@@ -160,17 +178,34 @@ Node *case1(Node *root1, Node* root2) {
         current = current->parent;
     }
 
+    }
+
     return root1;
 }
 
+
+// Tree1 is shorter than Tree 2
 Node* case2(Node *root1, Node *root2) {
    
+    std::cout<<"Case2: Tree1 is shorter than Tree2"<<std::endl;
+
+    // If Tree1 is NULL, then root2 is the required tree. 
+    if(root1 == NULL)
+        return root2;
+    
     int x1 = findLargestKey(root1);
 
     deleteNode(&root1, root1, x1, NULL, -1);
 
+    std::cout<<"Tree 1 after deletion of smallest key : "<<std::endl;
+    displayTree(root1);
+    std::cout<<"\n"<<std::endl;
+
     int h = height(root1);
+
     int h2 = height(root2);
+
+    displayTree(root1);
 
     Node *v = root2;
     Node *v_parent;
@@ -178,26 +213,74 @@ Node* case2(Node *root1, Node *root2) {
     int x = 0;
 
     while(x < h2 - h) {
+        v_parent = v;
         v = v->left;
         x++;
     }
 
-    Node *root3 = createNode(x1);
+    if(v != NULL) {
+         std::cout<<"The following tree is balanced with Tree 1 : "<<std::endl;
+         displayTree(v);
+         std::cout<<"\n"<<std::endl;
+    }
 
+    Node *root3 = createNode(x1);
     root3->right = v;
-    v->parent = root3;
+    
+    if(v != NULL) {
+        v->parent = root3;
+    }
 
     root3->left = root1;
-    root1->parent = root3;
-
+    
+    if(root1 != NULL)
+        root1->parent = root3;
+    
+    std::cout<<"Tree constructed by taking largest key of Tree1, Modified Tree1 and corresponding balanced tree removed from Tree 2 : "<<std::endl;
+    displayTree(root3);
+    std::cout<<"\n"<<std::endl;
+    
     v_parent->left = root3;
     root3->parent = v_parent;
 
-    // rightRotate(&root2, root2);
+    std::cout<<"Merged Tree - may not be an AVL"<<std::endl;
+    displayTree(root1);
+    std::cout<<"\n"<<std::endl;
 
-    insertNode(&root2, root2, createNode(v->key), NULL, -1);
+    Node *current = v_parent;
+    Node *node = v_parent->left;
+    
+
+    if(node != NULL) {
+
+    while(current != NULL) {
+
+        if(getBalance(current) > 1 && node->key < current->left->key) {
+            rightRotate(&root1, current);
+        }
+
+        else if(getBalance(current) < -1 && node->key > current->right->key) {
+            leftRotate(&root1, current);
+        }
+
+        else if(getBalance(current) > 1 && node->key > current->left->key) {
+            leftRotate(&root1, current->left);
+            rightRotate(&root1, current);
+        }
+
+        else if(getBalance(current) < -1 && node->key < current->right->key) {
+            rightRotate(&root1, current->right);
+            leftRotate(&root1, current);
+        }
+
+        current = current->parent;
+        
+    }
+
+    }
 
     return root2;
+
 }
 
 
