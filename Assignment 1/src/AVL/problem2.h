@@ -38,28 +38,84 @@ Node* searchKey(Node *root, int key, int *X) {
     
 }
 
+void expose(Node *root, Node *left, int *kptr, Node *right) {
 
-void generateTrees(Node *root, int k, Node *root1, Node *root2) {
-
-std::cout<<"generateTrees is Under construction"<<std::endl;
-
-    int child;
-
-    Node *parent = searchKey(root, k, &child);
-    Node *node;
-
-    if(child == RIGHT_CHILD)
-        node = parent->right;
-    
-    else if(child == LEFT_CHILD)
-        node = parent->left;
-
-    // This tree has all elements smaller than node->key.
-    Node *left_subtree_root = node->left;
-
-    
-    
+    left = root->left;
+    right = root->right;
+    *kptr = root->key;
 }
+
+
+void join(Node *T1, int k, Node *T2) {
+
+    std::cout<<"Should port this function from problem1.h";
+}
+
+
+// Return 0 if root != NULL
+// If root = NULL, returns -1
+int split(Node *root, int key, Node *RetLeft, bool *value, Node *RetRight) {
+
+    if(root == NULL)
+        return -1;
+
+    Node *L, *R;
+    int m;
+
+    expose(root, L, m, R);
+
+    if(key == m) {
+
+        RetLeft = L;
+        *value = true;
+        RetRight = R;
+
+        return;
+    }
+
+    if(key < m) {
+
+        Node *L1, *R1;
+        int b;
+
+        split(L, key, L1, &b, R1);
+        RetLeft = L;
+        *value = b;
+        RetRight = join(R1, m,  R);
+
+        return;
+    }
+
+    if(key > m) {
+
+        Node *L1, *R1;
+        int b;
+
+        split(R, key, L1, &b, R1);
+        RetLeft = join(L, m, L1);
+        *value = b;
+        RetRight = R;
+
+        return;
+    }
+
+    return;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
