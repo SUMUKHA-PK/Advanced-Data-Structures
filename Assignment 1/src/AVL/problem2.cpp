@@ -16,18 +16,20 @@ int main(int argc, char **argv) {
 
     Node *root1, *root2;
 
-    std::cout<<"Enter the value of k: "<<std::endl;
+    std::cout<<"\n\nEnter the value of k: "<<std::endl;
     std::cin>>k;
+    std::cout<<"k = "<<k<<std::endl;
 
     // root and k are the actual arguments. 
     // root1 and root2 are roots of the 2 new trees
-    generateTrees(root, k, root1, root2);
+    bool value;
+    split(root, k, &root1, &value, &root2);
 
-    // std::cout<<"\n\nTree1: \n"<<std::endl;
-    // displayTree(root1);
+    std::cout<<"\n\nTree1: \n"<<std::endl;
+    displayTree(root1);
 
-    // std::cout<<"\n\nTree2: \n"<<std::endl;
-    // displayTree(root2);
+    std::cout<<"\n\nTree2: \n"<<std::endl;
+    displayTree(root2);
     
     return 0;
 }
