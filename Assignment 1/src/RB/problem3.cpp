@@ -23,6 +23,10 @@ int main(int argc, char **argv) {
      std::cout<<"\n\nNew merged tree: \n"<<std::endl;
      displayTree(root);
 
+    cout<<"Height of 1:" <<blackHeight(root1)<<endl;
+    cout<<"Height of 2:" <<blackHeight(root2)<<endl;
+    cout<<"Height of 3:" <<blackHeight(root)<<endl;
+    std::cout<<"\n"<<std::endl;
     std::cout<<"\n\n"<<std::endl;
 
     return 0;

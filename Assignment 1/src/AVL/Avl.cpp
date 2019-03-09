@@ -94,28 +94,31 @@ int main() {
 
     // std::cout<<"Stupids here"<<std::endl;
 
+    // displayTree(root);
+
+    // std::cout<<"Stupids here"<<std::endl;
+
+    insertNode(&root,root, createNode(1), NULL, -1);
+    // displayTree(root);
+
+
+    // insertNode(&root,root, createNode(2), NULL, -1);
+    // displayTree(root);
+
+    insertNode(&root,root, createNode(1), NULL, -1);
     displayTree(root);
-
-    // std::cout<<"Stupids here"<<std::endl;
-
-    insertNode(&root,root, createNode(2), NULL, -1);
-    displayTree(root);
-
     // std::cout<<"Stupids here"<<std::endl;
 
 
-<<<<<<< HEAD
-    deleteNode(&root, root, 1, NULL, -1);
-=======
-    // insertNode(&root,root, createNode(4), NULL, -1);
->>>>>>> f02434991f7d03ca348516a7dc96d143ac2d2ec8
-    // std::cout<<"Stupids here"<<std::endl;
+    // deleteNode(&root, root, 1, NULL, -1);
+    // // insertNode(&root,root, createNode(4), NULL, -1);
+    // // std::cout<<"Stupids here"<<std::endl;
     
-    displayTree(root);
+    // displayTree(root);
 
-    deleteNode(&root,root,1,NULL,-1);
+    // deleteNode(&root,root,1,NULL,-1);
 
-    displayTree(root);
+    // displayTree(root);
     // std::cout<<"Stupids here"<<std::endl;
 
     return 0;

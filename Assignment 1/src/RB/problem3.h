@@ -63,7 +63,7 @@ Node* populateTree(Node *root, int treeNumber) {
         }
 
         // std::cout<<"Tree: "<<std::endl;
-        // displayTree(newroot);
+        // //displayyTree(newroot);
         // std::cout<<"\n\n\n"<<std::endl;
     }
 
@@ -80,15 +80,13 @@ Node *case1(Node *root1, Node *root2) {
     // deleteNode(root2, x);
     deleteNode(&root2, root2, x1 , NULL, -1);
 
-    std::cout<<"Delete is getting fucked"<<std::endl;
-
     int h = blackHeight(root2);
 
     int h1 = blackHeight(root1);
 
     std::cout<<"h = "<<h<<", h1 = "<<h1<<std::endl;
 
-    displayTree(root2);
+    //displayyTree(root2);
 
     Node* v = root1;
     Node *v_parent;
@@ -105,7 +103,7 @@ Node *case1(Node *root1, Node *root2) {
     v_parent = v->parent;
 
     std::cout<<"Tree rooted at v = "<<std::endl;
-    displayTree(v);
+    //displayyTree(v);
 
     // Root of the new tree. 
     Node* root3 = createNode(x1);
@@ -120,14 +118,14 @@ Node *case1(Node *root1, Node *root2) {
 
     cout<<root3->key<<endl;
     std::cout<<"Intermediate tree: \n\n"<<std::endl;
-    displayTree(root3);
+    //displayyTree(root3);
 
     v_parent->right = root3;
     root3->parent = root3;
 
     std::cout<<"\n\n"<<std::endl;
    
-    displayTree(root1);
+    //displayyTree(root1);
 
     leftRotate(&root1, v_parent);
 
@@ -149,10 +147,10 @@ Node *case2(Node *root1, Node *root2) {
 
     std::cout<<"Tree 1 after deletion of largest key : "<<std::endl;
 
-    if(root1 != NULL)
-        displayTree(root1);
-    else
-        std::cout<<"There is no Tree 1 after deletion"<<std::endl;
+    // if(root1 != NULL)
+    //     //displayyTree(root1);
+    // else
+    //     std::cout<<"There is no Tree 1 after deletion"<<std::endl;
     
     std::cout<<"\n"<<std::endl;
 
@@ -179,7 +177,7 @@ Node *case2(Node *root1, Node *root2) {
 
     if(v != NULL) {
          std::cout<<"The following tree is balanced with Tree 1 : "<<std::endl;
-         displayTree(v);
+         //displayyTree(v);
          std::cout<<"\n"<<std::endl;
     }
 
@@ -199,14 +197,14 @@ Node *case2(Node *root1, Node *root2) {
         root1->parent = root3;
 
     std::cout<<"Tree constructed by taking largest key of Tree1, Modified Tree1 and corresponding balanced tree removed from Tree 2 : "<<std::endl;
-    displayTree(root3);
+    //displayyTree(root3);
     std::cout<<"\n"<<std::endl;
     
     v_parent->left = root3;
     root3->parent = v_parent;
 
     std::cout<<"Merged Tree - may not be an AVL"<<std::endl;
-    displayTree(root2);
+    //displayyTree(root2);
     std::cout<<"\n"<<std::endl;
 
     Node *current = v_parent;

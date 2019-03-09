@@ -6,7 +6,7 @@ import random
 def problem1() : 
     n1 = int(input("Enter number of nodes in T1: "))
     n2 = int(input("Enter number of nodes in T2: "))
-    f = open("input.txt","w+")
+    f = open("input1.txt","w+")
     for i in range(n1):
         f.write("1 " + str(random.randint(1,100000)) + "\n")
     f.write("2\n")

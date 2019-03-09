@@ -76,7 +76,7 @@ Node* populateTree(Node *root, int treeNumber) {
         }
 
         // std::cout<<"Tree: "<<std::endl;
-        // displayTree(newroot);
+        // //displayTree(newroot);
         // std::cout<<"\n\n\n"<<std::endl;
     }
 
@@ -99,10 +99,10 @@ Node *case1(Node *root1, Node* root2) {
     deleteNode(&root2, root2, x1 , NULL, -1);
 
     std::cout<<"Tree 2 after deletion of smallest key : "<<std::endl;
-    if(root2 != NULL)
-        displayTree(root2);
-    else
-        std::cout<<"No Tree-2 exists after deletion"<<std::endl;
+    // if(root2 != NULL)
+    //     //displayTree(root2);
+    // else
+    //     std::cout<<"No Tree-2 exists after deletion"<<std::endl;
 
     std::cout<<"\n"<<std::endl;
 
@@ -125,7 +125,7 @@ Node *case1(Node *root1, Node* root2) {
 
     if(v != NULL) {
          std::cout<<"The following tree is balanced with Tree 2 : "<<std::endl;
-         displayTree(v);
+         //displayTree(v);
          std::cout<<"\n"<<std::endl;
     }
     
@@ -144,7 +144,7 @@ Node *case1(Node *root1, Node* root2) {
         root2->parent=root3;
 
     std::cout<<"Tree constructed by taking Smallest key of Tree2, Modified Tree2 and corresponding balanced tree removed from Tree 1: "<<std::endl;
-    displayTree(root3);
+    //displayTree(root3);
     std::cout<<"\n"<<std::endl;
 
     if(h1 == h)
@@ -155,7 +155,7 @@ Node *case1(Node *root1, Node* root2) {
 
 
     std::cout<<"Merged Tree - may not be an AVL"<<std::endl;
-    displayTree(root1);
+    //displayTree(root1);
     std::cout<<"\n"<<std::endl;
 
     Node *current = v_parent;
@@ -208,10 +208,10 @@ Node* case2(Node *root1, Node *root2) {
 
     std::cout<<"Tree 1 after deletion of largest key : "<<std::endl;
 
-    if(root1 != NULL)
-        displayTree(root1);
-    else
-        std::cout<<"There is no Tree 1 after deletion"<<std::endl;
+    // if(root1 != NULL)
+    //     //displayTree(root1);
+    // else
+    //     std::cout<<"There is no Tree 1 after deletion"<<std::endl;
     
     std::cout<<"\n"<<std::endl;
 
@@ -238,7 +238,7 @@ Node* case2(Node *root1, Node *root2) {
 
     if(v != NULL) {
          std::cout<<"The following tree is balanced with Tree 1 : "<<std::endl;
-         displayTree(v);
+         //displayTree(v);
          std::cout<<"\n"<<std::endl;
     }
 
@@ -259,14 +259,14 @@ Node* case2(Node *root1, Node *root2) {
     
 
     std::cout<<"Tree constructed by taking largest key of Tree1, Modified Tree1 and corresponding balanced tree removed from Tree 2 : "<<std::endl;
-    displayTree(root3);
+    //displayTree(root3);
     std::cout<<"\n"<<std::endl;
     
     v_parent->left = root3;
     root3->parent = v_parent;
 
     std::cout<<"Merged Tree - may not be an AVL"<<std::endl;
-    displayTree(root2);
+    //displayTree(root2);
     std::cout<<"\n"<<std::endl;
 
     Node *current = v_parent;
