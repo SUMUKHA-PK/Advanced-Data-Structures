@@ -131,19 +131,90 @@ Node *case1(Node *root1, Node *root2) {
 
     leftRotate(&root1, v_parent);
 
-    Node *current = v_parent;
-
-    // insertNode(&root1, root1, createNode(v->key), NULL, -1);
-
     return root1;
-
-
 }
 
 // h1 < h2
 Node *case2(Node *root1, Node *root2) {
+    std::cout<<"Case2: Tree1 is shorter than Tree2\n\n"<<std::endl;
 
+    // If Tree1 is NULL, then root2 is the required tree. 
+    if(root1 == NULL)
+        return root2;
+    
+    int x1 = findLargestKey(root1);
 
+    // Delete that largest key from tree-1
+    deleteNode(&root1, root1, x1, NULL, -1);
+
+    std::cout<<"Tree 1 after deletion of largest key : "<<std::endl;
+
+    if(root1 != NULL)
+        displayTree(root1);
+    else
+        std::cout<<"There is no Tree 1 after deletion"<<std::endl;
+    
+    std::cout<<"\n"<<std::endl;
+
+    // Height of new AVL tree after deleting it's largest key.
+    int h = height(root1);
+
+    // This has to be reduced till we get a sub-tree which is balanced with tree-1.
+    int h2 = height(root2);
+
+    Node *v = root2;
+    Node *v_parent;
+
+    int x = 0;
+
+    std::cout<<"h2 = "<<h2<<", h = "<<h<<std::endl;
+
+    while(x < h2 - h) {
+        v_parent = v;
+        v = v->left;
+        if(v == NULL)
+            break;
+        x++;
+    }
+
+    if(v != NULL) {
+         std::cout<<"The following tree is balanced with Tree 1 : "<<std::endl;
+         displayTree(v);
+         std::cout<<"\n"<<std::endl;
+    }
+
+    // Root of new intermediate tree with largest key of tree-1 as root.
+    Node *root3 = createNode(x1);
+
+    // Right sub-tree is rooted at v
+    root3->right = v;    
+    if(v != NULL) {
+        v->parent = root3;
+    }
+
+    // Left subtree is t1 itself
+    root3->left = root1;
+    
+    if(root1 != NULL)
+        root1->parent = root3;
+
+    std::cout<<"Tree constructed by taking largest key of Tree1, Modified Tree1 and corresponding balanced tree removed from Tree 2 : "<<std::endl;
+    displayTree(root3);
+    std::cout<<"\n"<<std::endl;
+    
+    v_parent->left = root3;
+    root3->parent = v_parent;
+
+    std::cout<<"Merged Tree - may not be an AVL"<<std::endl;
+    displayTree(root2);
+    std::cout<<"\n"<<std::endl;
+
+    Node *current = v_parent;
+    Node *node = v_parent->left;
+
+    rightRotate(&root2,v->parent);
+
+    return root2;
 }
 
 
