@@ -273,35 +273,35 @@ Node* case2(Node *root1, Node *root2) {
     Node *node = v_parent->left;
     
 
-    // if(node != NULL) {
+    if(node != NULL) {
 
-    // while(current != NULL) {
+    while(current != NULL) {
 
-    //     if(getBalance(current) > 1 && node->key < current->left->key) {
-    //         rightRotate(&root1, current);
-    //     }
+        if(getBalance(current) > 1 && node->key < current->left->key) {
+            rightRotate(&root1, current);
+        }
 
-    //     else if(getBalance(current) < -1 && node->key > current->right->key) {
-    //         leftRotate(&root1, current);
-    //     }
+        else if(getBalance(current) < -1 && node->key > current->right->key) {
+            leftRotate(&root1, current);
+        }
 
-    //     else if(getBalance(current) > 1 && node->key > current->left->key) {
-    //         leftRotate(&root1, current->left);
-    //         rightRotate(&root1, current);
-    //     }
+        else if(getBalance(current) > 1 && node->key > current->left->key) {
+            leftRotate(&root1, current->left);
+            rightRotate(&root1, current);
+        }
 
-    //     else if(getBalance(current) < -1 && node->key < current->right->key) {
-    //         rightRotate(&root1, current->right);
-    //         leftRotate(&root1, current);
-    //     }
+        else if(getBalance(current) < -1 && node->key < current->right->key) {
+            rightRotate(&root1, current->right);
+            leftRotate(&root1, current);
+        }
 
-    //     current = current->parent;
+        current = current->parent;
         
-    // }
+    }
 
-    // }
+    }
 
-    rightRotate(&root2, v_parent);
+    // rightRotate(&root2, v_parent);
 
     return root2;
 
