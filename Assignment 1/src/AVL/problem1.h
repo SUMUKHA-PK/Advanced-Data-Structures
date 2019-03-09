@@ -46,7 +46,7 @@ Node* populateTree(Node *root, int treeNumber) {
 
     int key, choice, flag = 0;
 
-    Node *newroot;
+    Node *newroot = NULL;
 
     if(treeNumber == 2) {
         std::cout<<"Smallest key of this tree should be larger than largest key of the other tree."<<std::endl;
@@ -84,13 +84,27 @@ Node* populateTree(Node *root, int treeNumber) {
 }
 
 
-
+// Tree1 is taller than Tree2
 Node *case1(Node *root1, Node* root2) {
+
+    std::cout<<"Case1: Tree1 is taller than or same height as Tree2\n\n"<<std::endl;
+
+    // If Tree2 is NULL, then root1 is the required tree. 
+    if(root2 == NULL)
+        return root1;
 
     int x1 = findSmallestKey(root2);
 
-    // deleteNode(root2, x);
+    // Delete that smallest key from tree-2
     deleteNode(&root2, root2, x1 , NULL, -1);
+
+    std::cout<<"Tree 2 after deletion of smallest key : "<<std::endl;
+    if(root2 != NULL)
+        displayTree(root2);
+    else
+        std::cout<<"No Tree-2 exists after deletion"<<std::endl;
+
+    std::cout<<"\n"<<std::endl;
 
     // Height of the new AVL tree after deleting x.
     int h = height(root2);
@@ -101,44 +115,165 @@ Node *case1(Node *root1, Node* root2) {
     Node* v = root1;
     Node* v_parent;
 
-    cout<<"H"<<h1<<" "<<h<<endl;
     int x = 0;
 
     while(x < h1 - h) {
+        v_parent = v;
         v=v->right;
         x++;
-        cout<<"f"<<endl;
     }
-   
-    v_parent = v->parent;
- cout<<"f1"<<endl;
-    std::cout<<"Tree rooted at v = "<<std::endl;
-    displayTree(v);
 
+    if(v != NULL) {
+         std::cout<<"The following tree is balanced with Tree 2 : "<<std::endl;
+         displayTree(v);
+         std::cout<<"\n"<<std::endl;
+    }
+    
     // Root of the new tree. 
     Node* root3 = createNode(x1);
 
     // Left Subtree is rooted at v. 
     root3->left = v;
-    v->parent = root3;
+    if(v != NULL)
+        v->parent = root3;
     
     // Right Subtree is t2 itself. 
     root3->right = root2;
-    root2->parent=root3;
+    
+    if(root2 != NULL)
+        root2->parent=root3;
 
-    cout<<root3->key<<endl;
-    std::cout<<"Intermediate tree: \n\n"<<std::endl;
+    std::cout<<"Tree constructed by taking Smallest key of Tree2, Modified Tree2 and corresponding balanced tree removed from Tree 1: "<<std::endl;
     displayTree(root3);
+    std::cout<<"\n"<<std::endl;
+
+    if(h1 == h)
+        return root3;
 
     v_parent->right = root3;
-    root3->parent = root3;
+    root3->parent = v_parent;
 
-    std::cout<<"\n\n"<<std::endl;
-   
+
+    std::cout<<"Merged Tree - may not be an AVL"<<std::endl;
     displayTree(root1);
+    std::cout<<"\n"<<std::endl;
 
     Node *current = v_parent;
     Node *node = v_parent->right;
+    
+    if(node != NULL) {
+
+    while(current != NULL) {
+
+        if(getBalance(current) > 1 && node->key < current->left->key) {
+            rightRotate(&root1, current);
+        }
+
+        else if(getBalance(current) < -1 && node->key > current->right->key) {
+            leftRotate(&root1, current);
+        }
+
+        else if(getBalance(current) > 1 && node->key > current->left->key) {
+            leftRotate(&root1, current->left);
+            rightRotate(&root1, current);
+        }
+
+        else if(getBalance(current) < -1 && node->key < current->right->key) {
+            rightRotate(&root1, current->right);
+            leftRotate(&root1, current);
+        }
+
+        current = current->parent;
+    }
+
+    }
+
+    return root1;
+}
+
+
+// Tree1 is shorter than Tree 2
+Node* case2(Node *root1, Node *root2) {
+   
+    std::cout<<"Case2: Tree1 is shorter than Tree2\n\n"<<std::endl;
+
+    // If Tree1 is NULL, then root2 is the required tree. 
+    if(root1 == NULL)
+        return root2;
+    
+    int x1 = findLargestKey(root1);
+
+    // Delete that largest key from tree-1
+    deleteNode(&root1, root1, x1, NULL, -1);
+
+    std::cout<<"Tree 1 after deletion of largest key : "<<std::endl;
+
+    if(root1 != NULL)
+        displayTree(root1);
+    else
+        std::cout<<"There is no Tree 1 after deletion"<<std::endl;
+    
+    std::cout<<"\n"<<std::endl;
+
+    // Height of new AVL tree after deleting it's largest key.
+    int h = height(root1);
+
+    // This has to be reduced till we get a sub-tree which is balanced with tree-1.
+    int h2 = height(root2);
+
+    Node *v = root2;
+    Node *v_parent;
+
+    int x = 0;
+
+    std::cout<<"h2 = "<<h2<<", h = "<<h<<std::endl;
+
+    while(x < h2 - h) {
+        v_parent = v;
+        v = v->left;
+        if(v == NULL)
+            break;
+        x++;
+    }
+
+    if(v != NULL) {
+         std::cout<<"The following tree is balanced with Tree 1 : "<<std::endl;
+         displayTree(v);
+         std::cout<<"\n"<<std::endl;
+    }
+
+    // Root of new intermediate tree with largest key of tree-1 as root.
+    Node *root3 = createNode(x1);
+
+    // Right sub-tree is rooted at v
+    root3->right = v;    
+    if(v != NULL) {
+        v->parent = root3;
+    }
+
+    // Left subtree is t1 itself
+    root3->left = root1;
+    
+    if(root1 != NULL)
+        root1->parent = root3;
+    
+
+    std::cout<<"Tree constructed by taking largest key of Tree1, Modified Tree1 and corresponding balanced tree removed from Tree 2 : "<<std::endl;
+    displayTree(root3);
+    std::cout<<"\n"<<std::endl;
+    
+    v_parent->left = root3;
+    root3->parent = v_parent;
+
+    std::cout<<"Merged Tree - may not be an AVL"<<std::endl;
+    displayTree(root2);
+    std::cout<<"\n"<<std::endl;
+
+    Node *current = v_parent;
+    Node *node = v_parent->left;
+    
+
+    // if(node != NULL) {
 
     // while(current != NULL) {
 
@@ -161,47 +296,15 @@ Node *case1(Node *root1, Node* root2) {
     //     }
 
     //     current = current->parent;
+        
     // }
 
-    leftRotate(&root1,current->parent);
-    return root1;
-}
+    // }
 
-Node* case2(Node *root1, Node *root2) {
-   
-    int x1 = findLargestKey(root1);
-
-    deleteNode(&root1, root1, x1, NULL, -1);
-
-    int h = height(root1);
-    int h2 = height(root2);
-
-    Node *v = root2;
-    Node *v_parent;
-
-    int x = 0;
-
-    while(x < h2 - h) {
-        v = v->left;
-        x++;
-    }
-
-    Node *root3 = createNode(x1);
-
-    root3->right = v;
-    v->parent = root3;
-
-    root3->left = root1;
-    root1->parent = root3;
-
-    v_parent->left = root3;
-    root3->parent = v_parent;
-
-    // rightRotate(&root2, root2);
-
-    insertNode(&root2, root2, createNode(v->key), NULL, -1);
+    rightRotate(&root2, v_parent);
 
     return root2;
+
 }
 
 
@@ -212,18 +315,23 @@ Node* case2(Node *root1, Node *root2) {
 // root2 - root of t2
 Node* mergeTrees(Node* root1, Node* root2) {
 
-    if(height(root1) >= height(root2)) {
-
-        std::cout<<"h1 >= h2"<<std::endl;
+    if(root1 == NULL && root2 == NULL)
+        return NULL;
     
-        return case1(root1, root2);
-    }
-    else {
-        
-        std::cout<<"h1 < h2"<<std::endl;
-        
-        return case2(root1, root2);
+    else if(root1 == NULL && root2 != NULL)
+        return root2;
+    
+    else if(root1 != NULL && root2 == NULL)
+        return root1;
 
+    else {
+
+        if(height(root1) >= height(root2)) {
+            return case1(root1, root2);
+        }
+        else {
+            return case2(root1, root2);
+        }
     
     }
 }
@@ -231,4 +339,4 @@ Node* mergeTrees(Node* root1, Node* root2) {
 
 }   // namespace avltree end. 
 
-#endif      // _PROBLEM_1_H 
+#endif // _PROBLEM_1_H
