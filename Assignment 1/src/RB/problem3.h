@@ -73,12 +73,12 @@ Node* populateTree(Node *root, int treeNumber) {
 // h1 >= h2
 Node *case1(Node *root1, Node *root2) {
 
-    int x = findSmallestKey(root2);
+    int x1 = findSmallestKey(root2);
 
-    std::cout<<"x = "<<x<<std::endl;
+    std::cout<<"x = "<<x1<<std::endl;
 
     // deleteNode(root2, x);
-    deleteNode(&root2, root2, x , NULL, -1);
+    deleteNode(&root2, root2, x1 , NULL, -1);
 
     std::cout<<"Delete is getting fucked"<<std::endl;
 
@@ -92,34 +92,48 @@ Node *case1(Node *root1, Node *root2) {
 
     Node* v = root1;
     Node *v_parent;
+    
+    int x = 0;
 
-    // // In the internet, h1 > h+1 is given which I think is not correct. h1 >= h is correct. 
-    // while(h1 > h + 1 ) {
+    std::cout<<"h1 = "<<h1<<std::endl;
+    std::cout<<"h = "<<h<<std::endl;
+    
+    while(x < h1 - h) {
+        v=v->right;
+        x++;
+    }
+    v_parent = v->parent;
 
-    //     if(getBalance(v) == -1)
-    //         h1 = h - 2;
-    //     else
-    //         h1 = h - 1;
+    std::cout<<"Tree rooted at v = "<<std::endl;
+    displayTree(v);
 
-    //     v_parent = v;    
-    //     v = v->right;
-    // }
+    // Root of the new tree. 
+    Node* root3 = createNode(x1);
 
-    // // Root of the new tree. 
-    // Node* root3 = createNode(x);
+    // Left Subtree is rooted at v. 
+    root3->left = v;
+    v->parent = root3;
+    
+    // Right Subtree is t2 itself. 
+    root3->right = root2;
+    root2->parent=root3;
 
-    // // Left Subtree is rooted at v. 
-    // root3->left = v;
+    cout<<root3->key<<endl;
+    std::cout<<"Intermediate tree: \n\n"<<std::endl;
+    displayTree(root3);
 
-    // // Right Subtree is t2 itself. 
-    // root3->right = root2;
+    v_parent->right = root3;
+    root3->parent = root3;
 
-    // v_parent->right = root3;
+    std::cout<<"\n\n"<<std::endl;
+   
+    displayTree(root1);
 
-    // std::cout<<"\n\n\nfuck: "<<std::endl;
-    // displayTree(root1);
+    leftRotate(&root1, v_parent);
 
-    // leftRotate(&root1, root1);
+    Node *current = v_parent;
+
+    // insertNode(&root1, root1, createNode(v->key), NULL, -1);
 
     return root1;
 

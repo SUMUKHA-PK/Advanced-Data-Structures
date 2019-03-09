@@ -101,14 +101,17 @@ Node *case1(Node *root1, Node* root2) {
     Node* v = root1;
     Node* v_parent;
 
+    cout<<"H"<<h1<<" "<<h<<endl;
     int x = 0;
 
     while(x < h1 - h) {
         v=v->right;
         x++;
+        cout<<"f"<<endl;
     }
+   
     v_parent = v->parent;
-
+ cout<<"f1"<<endl;
     std::cout<<"Tree rooted at v = "<<std::endl;
     displayTree(v);
 
@@ -137,29 +140,30 @@ Node *case1(Node *root1, Node* root2) {
     Node *current = v_parent;
     Node *node = v_parent->right;
 
-    while(current != NULL) {
+    // while(current != NULL) {
 
-        if(getBalance(current) > 1 && node->key < current->left->key) {
-            rightRotate(&root1, current);
-        }
+    //     if(getBalance(current) > 1 && node->key < current->left->key) {
+    //         rightRotate(&root1, current);
+    //     }
 
-        else if(getBalance(current) < -1 && node->key > current->right->key) {
-            leftRotate(&root1, current);
-        }
+    //     else if(getBalance(current) < -1 && node->key > current->right->key) {
+    //         leftRotate(&root1, current);
+    //     }
 
-        else if(getBalance(current) > 1 && node->key > current->left->key) {
-            leftRotate(&root1, current->left);
-            rightRotate(&root1, current);
-        }
+    //     else if(getBalance(current) > 1 && node->key > current->left->key) {
+    //         leftRotate(&root1, current->left);
+    //         rightRotate(&root1, current);
+    //     }
 
-        else if(getBalance(current) < -1 && node->key < current->right->key) {
-            rightRotate(&root1, current->right);
-            leftRotate(&root1, current);
-        }
+    //     else if(getBalance(current) < -1 && node->key < current->right->key) {
+    //         rightRotate(&root1, current->right);
+    //         leftRotate(&root1, current);
+    //     }
 
-        current = current->parent;
-    }
+    //     current = current->parent;
+    // }
 
+    leftRotate(&root1,current->parent);
     return root1;
 }
 
