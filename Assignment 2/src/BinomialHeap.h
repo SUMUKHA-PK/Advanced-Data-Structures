@@ -63,7 +63,6 @@ namespace binomialheap{
 
     void fixHeap(Node** heapNode,map<int,int> &hashMap,int l){
         Node* temp = *heapNode;
-        cout<<l<<endl;
         while(temp->l<l){
             temp=temp->right;
         }
@@ -90,10 +89,6 @@ namespace binomialheap{
             }
         }
         else{
-            int g=0;
-            if(temp==*heapNode){
-                g=1;
-            }
             temp->right->nodes.push_back(temp);
             temp->parent=temp->right;
             if(temp->left!=NULL){
@@ -102,11 +97,12 @@ namespace binomialheap{
             }
             else{
                 temp->right->left=NULL;
-                // temp->right=NULL;
-                // temp->left=NULL;
             }
-            temp=t->right;
             hashMap.erase(temp->l);
+            if(*heapNode==temp){
+                *heapNode = temp->right;
+            }
+            temp=temp->right;
             temp->l = temp->l + 1;
             if(hashMap.find(temp->l)==hashMap.end()){
                 hashMap.insert(pair<int,int>(temp->l,1));
@@ -123,7 +119,7 @@ namespace binomialheap{
  *  Checks whether there is a collision and then calls fixHeap.
  */
 
-    Node * heapUnion(Node** node,Node* node1, Node* node2, map<int,int> &hashMap){  
+    void heapUnion(Node** node,Node* node1, Node* node2, map<int,int> &hashMap){  
         //Iterate to find the right node in order to insert
         while(node1->right!=NULL && node1->l<node2->l){
             node1=node1->right;
@@ -171,15 +167,16 @@ namespace binomialheap{
                 node2->right=node1;
                 node1->left=node2;
                 node1=node2;
+                *node = node1;
             }
             else{
                 node2->right=node1->right->right;
                 node2->right->left = node2;
                 node1->right=node2;
                 node2->left=node1;
+                *node=node2;
             }
         }
-        return node1;
     }
 
 }
