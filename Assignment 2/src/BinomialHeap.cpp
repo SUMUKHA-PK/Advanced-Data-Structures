@@ -8,51 +8,56 @@ int main(){
     Node* node= createNode(10,hashMap);
     //Look into the problem of returning nodes
 
-    heapUnion(&node,node,createNode(20,hashMap),hashMap);
-    printHeap(node);
+    srand(time(NULL));
+    for(int i=0;i<10;i++){
+        int j = rand() %1000 +1;
+        heapUnion(&node,node,createNode(j,hashMap),hashMap);
+        
+    }
+    
+    // heapUnion(&node,node,createNode(2,hashMap),hashMap);
+    // printHeap(node);
 
-    heapUnion(&node,node,createNode(2,hashMap),hashMap);
-    printHeap(node);
+    // heapUnion(&node,node,createNode(11,hashMap),hashMap);
+    // printHeap(node);
+    
+    // heapUnion(&node,node,createNode(1,hashMap),hashMap);
+    // printHeap(node);
 
-    heapUnion(&node,node,createNode(11,hashMap),hashMap);
-    printHeap(node);
-    
-    heapUnion(&node,node,createNode(1,hashMap),hashMap);
-    printHeap(node);
+    // heapUnion(&node,node,createNode(3,hashMap),hashMap);
+    // printHeap(node);
 
-    heapUnion(&node,node,createNode(3,hashMap),hashMap);
-    printHeap(node);
+    // heapUnion(&node,node,createNode(5,hashMap),hashMap);
+    // printHeap(node);
 
-    heapUnion(&node,node,createNode(5,hashMap),hashMap);
-    printHeap(node);
+    // heapUnion(&node,node,createNode(7,hashMap),hashMap);
+    // printHeap(node);
 
-    heapUnion(&node,node,createNode(7,hashMap),hashMap);
-    printHeap(node);
+    // heapUnion(&node,node,createNode(4,hashMap),hashMap);
+    // printHeap(node);
+    
+    // heapUnion(&node,node,createNode(6,hashMap),hashMap);
+    // printHeap(node);
+    
+    // heapUnion(&node,node,createNode(8,hashMap),hashMap);
+    // printHeap(node);
+    
+    // heapUnion(&node,node,createNode(9,hashMap),hashMap);
+    // printHeap(node);
 
-    heapUnion(&node,node,createNode(4,hashMap),hashMap);
+    // heapUnion(&node,node,createNode(12,hashMap),hashMap);
+    // printHeap(node);
+    
+    // heapUnion(&node,node,createNode(19,hashMap),hashMap);
+    // printHeap(node);
+    
+    // heapUnion(&node,node,createNode(13,hashMap),hashMap);
+    // printHeap(node);
+    
+    // heapUnion(&node,node,createNode(15,hashMap),hashMap);
+    // printHeap(node);
     printHeap(node);
     
-    heapUnion(&node,node,createNode(6,hashMap),hashMap);
-    printHeap(node);
-    
-    heapUnion(&node,node,createNode(8,hashMap),hashMap);
-    printHeap(node);
-    
-    heapUnion(&node,node,createNode(9,hashMap),hashMap);
-    printHeap(node);
-
-    heapUnion(&node,node,createNode(12,hashMap),hashMap);
-    printHeap(node);
-    
-    heapUnion(&node,node,createNode(19,hashMap),hashMap);
-    printHeap(node);
-    
-    heapUnion(&node,node,createNode(13,hashMap),hashMap);
-    printHeap(node);
-    
-    heapUnion(&node,node,createNode(15,hashMap),hashMap);
-    printHeap(node);
-    
-    
+    cout<<getMin(&node)->val<<endl;
     return 0;
 }

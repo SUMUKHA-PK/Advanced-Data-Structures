@@ -179,4 +179,30 @@ namespace binomialheap{
         }
     }
 
-}
+
+/*
+ *  getMin : Returns the node with the least value in the heap 
+ */
+    Node * getMin(Node **heapNode){
+
+        Node * temp = *heapNode;
+
+        int min = temp->val;
+        temp = temp->right;
+        while(temp->right!=NULL){
+            if(temp->val<min){
+                min = temp->val;
+            }
+            temp=temp->right;
+        }
+        return temp;
+    }
+
+
+    void extractMin(Node ** heapNode) {
+        
+        Node * minNode = getMin(heapNode);
+
+    }
+
+} //namespace BHeap
