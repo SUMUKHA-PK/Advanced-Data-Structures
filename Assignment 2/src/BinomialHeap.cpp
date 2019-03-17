@@ -9,55 +9,55 @@ int main(){
     //Look into the problem of returning nodes
 
     srand(time(NULL));
-    for(int i=0;i<10;i++){
-        int j = rand() %1000 +1;
+    for(int i=0;i<100;i++){
+        int j = i +1;
         heapUnion(&node,node,createNode(j,hashMap),hashMap);
         
     }
     
     // heapUnion(&node,node,createNode(2,hashMap),hashMap);
-    // printHeap(node);
 
     // heapUnion(&node,node,createNode(11,hashMap),hashMap);
-    // printHeap(node);
     
     // heapUnion(&node,node,createNode(1,hashMap),hashMap);
-    // printHeap(node);
 
     // heapUnion(&node,node,createNode(3,hashMap),hashMap);
-    // printHeap(node);
 
     // heapUnion(&node,node,createNode(5,hashMap),hashMap);
-    // printHeap(node);
 
     // heapUnion(&node,node,createNode(7,hashMap),hashMap);
-    // printHeap(node);
 
     // heapUnion(&node,node,createNode(4,hashMap),hashMap);
-    // printHeap(node);
     
     // heapUnion(&node,node,createNode(6,hashMap),hashMap);
-    // printHeap(node);
     
     // heapUnion(&node,node,createNode(8,hashMap),hashMap);
-    // printHeap(node);
     
     // heapUnion(&node,node,createNode(9,hashMap),hashMap);
-    // printHeap(node);
 
     // heapUnion(&node,node,createNode(12,hashMap),hashMap);
-    // printHeap(node);
     
     // heapUnion(&node,node,createNode(19,hashMap),hashMap);
-    // printHeap(node);
     
     // heapUnion(&node,node,createNode(13,hashMap),hashMap);
-    // printHeap(node);
     
     // heapUnion(&node,node,createNode(15,hashMap),hashMap);
     // printHeap(node);
-    printHeap(node);
     
-    cout<<getMin(&node)->val<<endl;
+    // cout<<getMin(&node)->val<<endl;
+
+    for(int i=0;i<8;i++){
+        extractMin(&node,hashMap);
+    }
+
+
+    // for(int i=0;i<100;i++){
+    //     int j = rand() %1000 +1;
+    //     heapUnion(&node,node,createNode(j,hashMap),hashMap);
+        
+    // }
+
+
+    printHeap(node);
     return 0;
 }

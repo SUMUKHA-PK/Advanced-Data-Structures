@@ -68,13 +68,8 @@ namespace binomialheap{
         }
         if(temp->l!=l) temp=temp->right;
         if(temp->val<temp->right->val){
-            // if(temp==*heapNode){
-            //     *heapNode = temp->right;
-            // }
             temp->nodes.push_back(temp->right);
             temp->right->parent=temp;
-            // temp->right->left=NULL;
-            // temp->right->right=NULL;
             temp->right = temp->right->right;
             if(temp->right!=NULL){
                 temp->right->left=temp;
@@ -139,6 +134,7 @@ namespace binomialheap{
                 else{
                     fixHeap(node,hashMap,node1->l);
                 }
+                
             }
             else{
                 node2->right=node1->right;
@@ -163,18 +159,32 @@ namespace binomialheap{
         }
         // If the degree is not same, insert checking whether its the first node to be added or in the middle.
         else{
-            if(node1->left==NULL){
-                node2->right=node1;
-                node1->left=node2;
-                node1=node2;
-                *node = node1;
+            if(node1->l>node2->l){
+                if(node1->left==NULL){
+                    node2->right=node1;
+                    node1->left=node2;
+                    node1=node2;
+                    *node = node1;
+                }
+                else{
+                    node2->left=node1->left;
+                    node1->left->right=node2;
+                    node1->left=node2;
+                    node2->right=node1;
+                }
             }
             else{
-                node2->right=node1->right->right;
-                node2->right->left = node2;
-                node1->right=node2;
-                node2->left=node1;
-                *node=node2;
+                if(node1->right==NULL){
+                    node1->right = node2;
+                    node2->left = node1;
+                    node2->right=NULL;
+                }   
+                else{
+                    node1->right->left=node2;
+                    node2->right=node1->right;
+                    node1->right=node2;
+                    node2->left=node1;
+                }
             }
         }
     }
@@ -186,23 +196,58 @@ namespace binomialheap{
     Node * getMin(Node **heapNode){
 
         Node * temp = *heapNode;
-
+        Node * minNode = temp;
         int min = temp->val;
         temp = temp->right;
-        while(temp->right!=NULL){
+        while(temp!=NULL){
             if(temp->val<min){
                 min = temp->val;
+                minNode = temp;
             }
             temp=temp->right;
         }
-        return temp;
+        return minNode;
     }
 
 
-    void extractMin(Node ** heapNode) {
+    void extractMin(Node ** heapNode,map<int,int>&hashMap) {
         
         Node * minNode = getMin(heapNode);
-
+        Node * temp = *heapNode;
+        int start = 0;
+        if(*heapNode==minNode){
+            if(minNode->right!=NULL){
+                *heapNode = minNode->right;
+                minNode->right->left=NULL;
+            }
+            else{
+                *heapNode = temp->nodes[0];
+                start=1;
+            }
+        }
+        else{
+            if(minNode->right!=NULL&&minNode->left!=NULL){
+                minNode->left->right = minNode->right;
+                minNode->right->left = minNode->left;
+                minNode->right=NULL;
+                minNode->left=NULL;
+            }
+            else if(minNode->right!=NULL){
+                minNode->right->left = minNode->left;
+                minNode->right=NULL;
+            }
+            else if(minNode->left!=NULL){
+                minNode->left->right = minNode->right;
+                minNode->left=NULL;
+            }
+        }
+        hashMap.erase(minNode->l);
+        for(int i=start;i<minNode->nodes.size();i++){
+            if(hashMap.find(minNode->nodes[i]->l)!=hashMap.end()) hashMap.insert(pair<int,int>(minNode->nodes[i]->l,1));
+            heapUnion(heapNode,*heapNode,minNode->nodes[i],hashMap);
+        }
+        delete(minNode);
+        
     }
 
 } //namespace BHeap
