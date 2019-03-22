@@ -137,23 +137,40 @@ namespace binomialheap{
                 
             }
             else{
-                node2->right=node1->right;
-                node2->left=node1->left;
-                node1->left=NULL;
-                node1->right=NULL;
+                if(node1->left!=NULL&&node1->right!=NULL){
+                    node2->right=node1->right;
+                    node2->right->left=node2;
+                    node2->left=node1->left;
+                    node2->left->right=node2;
+                    node1->right=NULL;
+                    node1->left=NULL;
+                }
+                else if(node1->left!=NULL){
+                    node2->left=node1->left;
+                    node2->left->right=node2;
+                    node2->right=NULL;
+                    node1->right=NULL;
+                    node1->left=NULL;
+                }
+                else if(node1->right!=NULL){
+                    node2->right=node1->right;
+                    node2->right->left=node2;
+                    *node=node2;
+                    node2->left=NULL;
+                    node1->right=NULL;
+                    node1->left=NULL;
+                }
                 node2->nodes.push_back(node1);
                 node1->parent=node2;
                 node1->head=0;
                 node2->head=1;
                 hashMap.erase(node1->l);
                 node2->l= node2->l+1;
-                node1=node2;
-                *node = node1;
-                if(hashMap.find(node1->l)==hashMap.end()){
-                    hashMap.insert(pair<int,int>(node1->l,1));
+                if(hashMap.find(node2->l)==hashMap.end()){
+                    hashMap.insert(pair<int,int>(node2->l,1));
                 }
                 else{
-                    fixHeap(node,hashMap,node1->l);
+                    fixHeap(node,hashMap,node2->l);
                 }
             }
         }
@@ -163,8 +180,8 @@ namespace binomialheap{
                 if(node1->left==NULL){
                     node2->right=node1;
                     node1->left=node2;
-                    node1=node2;
-                    *node = node1;
+                    node2->left=NULL;
+                    *node = node2;
                 }
                 else{
                     node2->left=node1->left;
@@ -219,10 +236,17 @@ namespace binomialheap{
             if(minNode->right!=NULL){
                 *heapNode = minNode->right;
                 minNode->right->left=NULL;
+                minNode->right=NULL;
             }
             else{
-                *heapNode = temp->nodes[0];
-                start=1;
+                if(temp->nodes[0]!=NULL){
+                    *heapNode = temp->nodes[0];
+                    start=1;
+                }
+                else{
+                    printf("Heap empty!\n");
+                    return;
+                }
             }
         }
         else{
@@ -232,18 +256,17 @@ namespace binomialheap{
                 minNode->right=NULL;
                 minNode->left=NULL;
             }
-            else if(minNode->right!=NULL){
-                minNode->right->left = minNode->left;
-                minNode->right=NULL;
-            }
             else if(minNode->left!=NULL){
-                minNode->left->right = minNode->right;
+                minNode->left->right = NULL;
                 minNode->left=NULL;
             }
         }
         hashMap.erase(minNode->l);
         for(int i=start;i<minNode->nodes.size();i++){
-            if(hashMap.find(minNode->nodes[i]->l)!=hashMap.end()) hashMap.insert(pair<int,int>(minNode->nodes[i]->l,1));
+            if(hashMap.find(minNode->nodes[i]->l)!=hashMap.end()) hashMap.insert(pair<int,int>(minNode->nodes[i]->l,1));  
+            Node * temp = *heapNode;
+            // cout<<temp->val<<endl;
+            // printHeap(*heapNode); 
             heapUnion(heapNode,*heapNode,minNode->nodes[i],hashMap);
         }
         delete(minNode);
