@@ -160,6 +160,7 @@ namespace binomialheap{
                     node1->right=NULL;
                     node1->left=NULL;
                 }
+                *node = node2;
                 node2->nodes.push_back(node1);
                 node1->parent=node2;
                 node1->head=0;
