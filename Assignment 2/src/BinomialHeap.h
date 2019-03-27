@@ -9,6 +9,7 @@ namespace binomialheap{
         struct node*  parent = NULL;
         int val;
         int head;
+        int id;
         struct node* left = NULL;
         struct node* right = NULL;
     }Node;
@@ -19,11 +20,12 @@ namespace binomialheap{
  *  and hashes that values in if necessary.
  */
 
-    Node * createNode(int n,map<int,int> &hashMap){
+    Node * createNode(int n,map<int,int> &hashMap, int id){
         Node * node = new Node;
         node->val = n;
         node->l = 1;
         node->head=1;
+        node->id = id;
         if(hashMap.find(1)!=hashMap.end()){
             hashMap.insert(pair<int,int>(1,1));
         }

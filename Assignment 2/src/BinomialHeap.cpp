@@ -5,13 +5,13 @@ using namespace binomialheap;
 int main(){
     map<int,int> hashMap;
 
-    Node* node= createNode(10,hashMap);
+    Node* node= createNode(10,hashMap, 0);
     //Look into the problem of returning nodes
 
     srand(time(NULL));
     for(int i=1;i<1000;i++){
         int j = i +1;
-        heapUnion(&node,node,createNode(10,hashMap),hashMap);  
+        heapUnion(&node,node,createNode(10,hashMap, i),hashMap);  
         
     }
 printHeap(node); 
