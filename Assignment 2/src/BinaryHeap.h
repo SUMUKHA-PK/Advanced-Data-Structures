@@ -72,7 +72,6 @@ void buildMinHeap(vector<Node*>&A) {
         bubbleDown(i, A);
 }
 
-
 Node* getMin(vector<Node*>&A) {
     return A[0];
 }
