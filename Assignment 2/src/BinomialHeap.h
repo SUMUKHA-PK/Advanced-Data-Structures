@@ -1,3 +1,5 @@
+//Authored: Sumukha PK , 2019
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -274,6 +276,19 @@ namespace binomialheap{
         }
         delete(minNode);
         
+    }
+
+    void decreaseKey(Node * node, int key){
+        if(node->val==key){
+            return;
+        }
+        node->val=key;
+        while(node->parent!=NULL&&node->parent->val>node->val){
+            int temp = node->val;
+            node->val = node->parent->val;
+            node->parent->val = temp;
+            node=node->parent;
+        }
     }
 
 } //namespace BHeap
