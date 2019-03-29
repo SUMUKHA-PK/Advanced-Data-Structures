@@ -1,3 +1,5 @@
+//Authored: Sumukha PK , 2019
+
 #include<bits/stdc++.h>
 #include"BinomialHeap.h"
 using namespace binomialheap;
@@ -9,12 +11,12 @@ int main(){
     //Look into the problem of returning nodes
 
     srand(time(NULL));
-    for(int i=1;i<1000;i++){
+    for(int i=1;i<20;i++){
         int j = i +1;
-        heapUnion(&node,node,createNode(10,hashMap, i),hashMap);  
+        heapUnion(&node,node,createNode(j,hashMap, i),hashMap);  
         
     }
-printHeap(node); 
+// printHeap(node); 
     
     
     // heapUnion(&node,node,createNode(2,hashMap),hashMap);
@@ -44,7 +46,7 @@ printHeap(node);
     // heapUnion(&node,node,createNode(13,hashMap),hashMap);
     
     // heapUnion(&node,node,createNode(15,hashMap),hashMap);
-    // printHeap(node);
+    printHeap(node);
     
     // cout<<getMin(&node)->val<<endl;
 
@@ -59,8 +61,9 @@ printHeap(node);
     //     heapUnion(&node,node,createNode(j,hashMap),hashMap);
         
     // }
+    cout<<node->right->nodes[3]->nodes[1]->val<<endl;
 
-
+    decreaseKey(node->right->nodes[3]->nodes[1],4);
     printHeap(node);
     return 0;
 }
