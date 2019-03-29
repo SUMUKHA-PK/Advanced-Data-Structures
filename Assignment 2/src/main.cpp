@@ -72,6 +72,7 @@ void UseBinaryHeap(vector<int> &X, vector<int> &Y, vector<int> &W) {
                 
                 // Make changes in the required node
                 ptrVector[v]->val = ptrVector[u]->val + w_u_v;
+                
 
                 // Heap property might be violated because of the above change. 
                 // build heap again!
