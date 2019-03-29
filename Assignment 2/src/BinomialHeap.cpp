@@ -11,8 +11,8 @@ int main(){
     //Look into the problem of returning nodes
 
     srand(time(NULL));
-    for(int i=1;i<12;i++){
-        int j = i +1;
+    for(int i=1;i<100000;i++){
+        int j = rand()%1000 +1;
         heapUnion(&node,node,createNode(j,hashMap, i),hashMap);  
         
     }
@@ -46,13 +46,13 @@ int main(){
     // heapUnion(&node,node,createNode(13,hashMap),hashMap);
     
     // heapUnion(&node,node,createNode(15,hashMap),hashMap);
-    printHeap(node);
+    // printHeap(node);
     
     // cout<<getMin(&node)->val<<endl;
 
-    for(int i=0;i<11;i++){
+    for(int i=0;i<99999;i++){
         extractMin(&node,hashMap);
-        printHeap(node);
+        // printHeap(node);
     }
 
 
