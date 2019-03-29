@@ -7,11 +7,11 @@ using namespace binomialheap;
 int main(){
     map<int,int> hashMap;
 
-    Node* node= createNode(10,hashMap, 0);
+    Node* node= createNode(1,hashMap, 0);
     //Look into the problem of returning nodes
 
     srand(time(NULL));
-    for(int i=1;i<20;i++){
+    for(int i=1;i<12;i++){
         int j = i +1;
         heapUnion(&node,node,createNode(j,hashMap, i),hashMap);  
         
@@ -50,10 +50,10 @@ int main(){
     
     // cout<<getMin(&node)->val<<endl;
 
-    // for(int i=0;i<99;i++){
-    //     extractMin(&node,hashMap);
-    //     // printHeap(node);
-    // }
+    for(int i=0;i<11;i++){
+        extractMin(&node,hashMap);
+        printHeap(node);
+    }
 
 
     // for(int i=0;i<100;i++){
@@ -61,9 +61,10 @@ int main(){
     //     heapUnion(&node,node,createNode(j,hashMap),hashMap);
         
     // }
-    cout<<node->right->nodes[3]->nodes[1]->val<<endl;
+    // cout<<node->right->nodes[3]->nodes[1]->val<<endl;
 
-    decreaseKey(node->right->nodes[3]->nodes[1],4);
+    // decreaseKey(node->right->nodes[3]->nodes[1],4);
+    // cout<<node->l<<endl;
     printHeap(node);
     return 0;
 }

@@ -164,7 +164,7 @@ namespace binomialheap{
                     node1->right=NULL;
                     node1->left=NULL;
                 }
-                *node = node2;
+                if(*node==node1) *node = node2;
                 node2->nodes.push_back(node1);
                 node1->parent=node2;
                 node1->head=0;
@@ -270,8 +270,6 @@ namespace binomialheap{
         for(int i=start;i<minNode->nodes.size();i++){
             if(hashMap.find(minNode->nodes[i]->l)!=hashMap.end()) hashMap.insert(pair<int,int>(minNode->nodes[i]->l,1));  
             Node * temp = *heapNode;
-            // cout<<temp->val<<endl;
-            // printHeap(*heapNode); 
             heapUnion(heapNode,*heapNode,minNode->nodes[i],hashMap);
         }
         delete(minNode);
