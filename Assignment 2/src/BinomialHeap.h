@@ -276,18 +276,18 @@ namespace binomialheap{
         
     }
 
-    void decreaseKey(Node * node, int key){
-        if(node->val==key){
-            return;
-        }
-        node->val=key;
-        while(node->parent!=NULL&&node->parent->val>node->val){
-            int temp = node->val;
-            node->val = node->parent->val;
-            node->parent->val = temp;
-            node=node->parent;
-        }
-    }
+    // void decreaseKey(Node * node, int key){
+    //     if(node->val==key){
+    //         return;
+    //     }
+    //     node->val=key;
+    //     while(node->parent!=NULL&&node->parent->val>node->val){
+    //         int temp = node->val;
+    //         node->val = node->parent->val;
+    //         node->parent->val = temp;
+    //         node=node->parent;
+    //     }
+    // }
 
 // n2 is parent!!!
 void ChildCopy(Node *n1, Node *n2) {
@@ -325,7 +325,7 @@ void decreaseKey(Node * node, int key){
     }
     node->val=key;
     while(node->parent!=NULL&&node->parent->val>node->val){
-        
+        cout<<"Inside while"<<endl; 
         Node *parent = node->parent;
         if(parent->left != NULL && parent->right != NULL) {
             node->left = parent->left;
