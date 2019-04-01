@@ -466,7 +466,7 @@ int Cascase_cut(node* H1, node* y)
 
  */
 
-int Decrease_key(node*H1, int x, int k)
+int Decrease_key(node*H1, node* ptr, int k)
 
 {
 
@@ -482,17 +482,17 @@ int Decrease_key(node*H1, int x, int k)
 
     }
 
-    node* ptr = Find(H1, x);
+    // node* ptr = Find(H1, x);
 
-    if (ptr == NULL)
+    // if (ptr == NULL)
 
-    {
+    // {
 
-        cout<<"Node not found in the Heap"<<endl;
+        // cout<<"Node not found in the Heap"<<endl;
 
-        return 1;
+        // return 1;
 
-    }
+    // }
 
     if (ptr->n < k)
 
@@ -531,37 +531,37 @@ int Decrease_key(node*H1, int x, int k)
  
 
 
-/*
+// /*
 
- * Delete Nodes in Fibonnaci Heap
+//  * Delete Nodes in Fibonnaci Heap
 
- */
+//  */
 
-int Delete_key(node* H1, int k)
+// int Delete_key(node* H1, int k)
 
-{
+// {
 
-    node* np = NULL;
+//     node* np = NULL;
 
-    int t;
+//     int t;
 
-    t = Decrease_key(H1, k, -5000);
+//     t = Decrease_key(H1, k, -5000);
 
-    if (!t)
+//     if (!t)
 
-        np = Extract_Min(H);
+//         np = Extract_Min(H);
 
-    if (np != NULL)
+//     if (np != NULL)
 
-        cout<<"Key Deleted"<<endl;
+//         cout<<"Key Deleted"<<endl;
 
-    else
+//     else
 
-        cout<<"Key not Deleted"<<endl;
+//         cout<<"Key not Deleted"<<endl;
 
-    return 0;
+//     return 0;
 
-}
+// }
 
 
 

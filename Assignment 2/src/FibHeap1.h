@@ -3,7 +3,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-namespace binomialheap{
+namespace fibheap1{
     
     typedef struct node{
         int l;//length of the vector
@@ -164,7 +164,7 @@ namespace binomialheap{
                     node1->right=NULL;
                     node1->left=NULL;
                 }
-                if(*node==node1) *node = node2;
+                *node = node2;
                 node2->nodes.push_back(node1);
                 node1->parent=node2;
                 node1->head=0;
@@ -270,12 +270,13 @@ namespace binomialheap{
         for(int i=start;i<minNode->nodes.size();i++){
             if(hashMap.find(minNode->nodes[i]->l)!=hashMap.end()) hashMap.insert(pair<int,int>(minNode->nodes[i]->l,1));  
             Node * temp = *heapNode;
+            // cout<<temp->val<<endl;
+            // printHeap(*heapNode); 
             heapUnion(heapNode,*heapNode,minNode->nodes[i],hashMap);
         }
         delete(minNode);
         
     }
-
 
 // n2 is parent!!!
 void ChildCopy(Node *n1, Node *n2) {
@@ -301,7 +302,6 @@ void ChildCopy(Node *n1, Node *n2) {
     for(int i = 0; i < temp.size(); i++)
         n2->nodes.push_back(temp[i]);
 }
-
 
 
     void decreaseKey(Node * node, int key){

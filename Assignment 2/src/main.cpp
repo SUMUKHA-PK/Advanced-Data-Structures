@@ -3,7 +3,7 @@
 
 #include "BinomialHeap.h"
 #include "BinaryHeap.h"
-#include "FibHeap.h"
+#include "FibHeap1.h"
 using namespace std;
 
 // source node
@@ -144,62 +144,78 @@ void UseBinaryHeap(vector<int> &X, vector<int> &Y, vector<int> &W) {
 
 void UseFibHeap(vector<int> &X, vector<int> &Y, vector<int> &W) {
 
+    map<int, int> hashMap;
     int TotalNodeCount = X.size() - 1;
 
-    vector<fibheap::node*> pointerVector;
+    // Array of pointers needed for fast updation of value.
+    vector<fibheap1::Node*> pointerVector;
     pointerVector.reserve(TotalNodeCount);
 
-    fibheap::node* H = fibheap::InitializeHeap();
+    fibheap1::Node *root = fibheap1::createNode(INT_MAX, hashMap, -1);
+    fibheap1::Node *node;
 
+    // Creating and initializing the binomial heap
     for(int i = 0; i < TotalNodeCount; i++) {
-        fibheap::node *temp;
         if(i == SOURCE) {
-            temp = fibheap::Create_node(0, i);
-            pointerVector.push_back(temp);
+            node = fibheap1::createNode(0, hashMap, i);
+            pointerVector.push_back(node);
+            fibheap1::heapUnion(&root, root, pointerVector[i], hashMap);
         }
+
         else {
-            temp = fibheap::Create_node(INT_MAX, i);
-            pointerVector.push_back(temp);
+            node = fibheap1::createNode(INT_MAX, hashMap, i);
+            pointerVector.push_back(node);
+            fibheap1::heapUnion(&root, root, pointerVector[i], hashMap);
         }
-        H = fibheap::Insert(H, temp);
     }
+
+    // Add 1 extra node to manage.
+    fibheap1::heapUnion(&root, root, fibheap1::createNode(INT_MAX, hashMap, -1), hashMap);
 
     set<int> S;
     S.clear();
 
-    cout<<"Starting the while loop"<<endl;
+    cout<<"No problems till here"<<endl;
 
+    // Till there is only 1 node.
     while(S.size() <= TotalNodeCount) {
 
-        Display(H);
-        cout<<"Before extract min"<<endl;
-        fibheap::node *U = fibheap::Extract_Min(H);
+        fibheap1::Node *U = fibheap1::getMin(&root);
+        fibheap1::printHeap(root);
+        cout<<endl;
+        cout<<"Minimum = "<<U->val<<endl;
+        fibheap1::extractMin(&root, hashMap);
+        cout<<"Extracted that minimum"<<endl;
         S.insert(U->id);
-        cout<<"After extract min"<<endl;
-        
+
         int u = U->id;
 
         for(int z = X[u]; z < X[u+1]; z++) {
-            int v = Y[z];
+            cout<<"\n\n\nz = "<<z<<endl;
+            int  v = Y[z];
+            cout<<"Neighbour v = "<<v;
+            cout<<"\nNeighbour check = "<<pointerVector[v]->id<<endl;
             int w_u_v = W[z];
+            cout<<", Weight = "<<w_u_v<<endl;
 
-            if(pointerVector[v]->n > pointerVector[u]->n + w_u_v) {
-                fibheap::Decrease_key(H, pointerVector[v], pointerVector[u]->n + w_u_v);
+            if(pointerVector[v]->val > pointerVector[u]->val + w_u_v) {
+                cout<<"pointer to "<<pointerVector[v]->id<<endl;
+                fibheap1::decreaseKey(pointerVector[v], pointerVector[u]->val + w_u_v);
+                cout<<"pointer to "<<pointerVector[v]->id<<endl;
+
+                for(int i = 0; i < TotalNodeCount; i++) {
+                   cout<<"NodeId = "<<pointerVector[i]->id<<", Distance = "<<pointerVector[i]->val<<endl;
+                }
+            
             }
         }
-
-        break;
-
     }
-    
-    fibheap::Display(H);
 
     cout<<"Shortest paths from source to all other nodes: "<<endl;
     for(int i = 0; i < TotalNodeCount; i++) {
-        cout<<"NodeId = "<<pointerVector[i]->id<<", Distance = "<<pointerVector[i]->n<<endl;
+        cout<<"NodeId = "<<pointerVector[i]->id<<", Distance = "<<pointerVector[i]->val<<endl;
     }
-
-    return;
+   
 }
 
 
