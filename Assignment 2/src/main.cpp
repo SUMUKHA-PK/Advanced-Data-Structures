@@ -184,7 +184,7 @@ void UseFibHeap(vector<int> &X, vector<int> &Y, vector<int> &W) {
             int w_u_v = W[z];
 
             if(pointerVector[v]->n > pointerVector[u]->n + w_u_v) {
-                // fibheap::Decrease_key(H, pointerVector[v], pointerVector[u]->n + w_u_v);
+                fibheap::Decrease_key(H, pointerVector[v], pointerVector[u]->n + w_u_v);
             }
         }
 
