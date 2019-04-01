@@ -276,6 +276,18 @@ namespace binomialheap{
         
     }
 
+    void decreaseKey(Node * node, int key){
+        if(node->val==key){
+            return;
+        }
+        node->val=key;
+        while(node->parent!=NULL&&node->parent->val>node->val){
+            int temp = node->val;
+            node->val = node->parent->val;
+            node->parent->val = temp;
+            node=node->parent;
+        }
+    }
 
 // n2 is parent!!!
 void ChildCopy(Node *n1, Node *n2) {
@@ -304,46 +316,46 @@ void ChildCopy(Node *n1, Node *n2) {
 
 
 
-    void decreaseKey(Node * node, int key){
-        
-        cout<<"In decrease key!!!, nodeid = "<<node->id<<endl;
+void decreaseKey(Node * node, int key){
+    
+    cout<<"In decrease key!!!, nodeid = "<<node->id<<endl;
 
-        if(node->val==key){
-            return;
-        }
-        node->val=key;
-        while(node->parent!=NULL&&node->parent->val>node->val){
-            
-            Node *parent = node->parent;
-            if(parent->left != NULL && parent->right != NULL) {
-                node->left = parent->left;
-                node->right = parent->right;
-                parent->left->right = node;
-                parent->right->left = node;
-            }
-
-            else if(parent->left == NULL) {
-                
-                node->right = parent->right;
-                parent->right->left = node;
-            }
-
-            else if(parent->right == NULL) {
-                node->left = parent->left;
-                parent->left->right = node;
-            }
-            parent->parent = node;
-                
-            ChildCopy(node, parent);
-            node->nodes.push_back(parent);
-
-            node->parent = NULL;
-            parent->left = NULL;
-            parent->right = NULL;
-
-
-
-        }
+    if(node->val==key){
+        return;
     }
+    node->val=key;
+    while(node->parent!=NULL&&node->parent->val>node->val){
+        
+        Node *parent = node->parent;
+        if(parent->left != NULL && parent->right != NULL) {
+            node->left = parent->left;
+            node->right = parent->right;
+            parent->left->right = node;
+            parent->right->left = node;
+        }
+
+        else if(parent->left == NULL) {
+            
+            node->right = parent->right;
+            parent->right->left = node;
+        }
+
+        else if(parent->right == NULL) {
+            node->left = parent->left;
+            parent->left->right = node;
+        }
+        parent->parent = node;
+            
+        ChildCopy(node, parent);
+        node->nodes.push_back(parent);
+
+        node->parent = NULL;
+        parent->left = NULL;
+        parent->right = NULL;
+
+
+
+    }
+}
 
 } //namespace BHeap
