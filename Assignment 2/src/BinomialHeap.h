@@ -1,6 +1,5 @@
 //Authored: Sumukha PK , 2019
 
-#include<bits/stdc++.h>
 using namespace std;
 
 namespace binomialheap{
@@ -78,6 +77,8 @@ namespace binomialheap{
             if(temp->right!=NULL){
                 temp->right->left=temp;
             }
+            temp->right->right=NULL;
+            temp->right->left=NULL;
             hashMap.erase(temp->l);
             temp->l = temp->l + 1;
             if(hashMap.find(temp->l)==hashMap.end()){
@@ -101,13 +102,15 @@ namespace binomialheap{
             if(*heapNode==temp){
                 *heapNode = temp->right;
             }
-            temp=temp->right;
-            temp->l = temp->l + 1;
-            if(hashMap.find(temp->l)==hashMap.end()){
-                hashMap.insert(pair<int,int>(temp->l,1));
+            Node* temp1=temp->right;
+            temp1->l = temp1->l + 1;
+            temp->left=NULL;
+            temp->right=NULL;
+            if(hashMap.find(temp1->l)==hashMap.end()){
+                hashMap.insert(pair<int,int>(temp1->l,1));
             }
             else{
-                fixHeap(heapNode,hashMap,temp->l);
+                fixHeap(heapNode,hashMap,temp1->l);
             }
         }
     }
@@ -127,6 +130,8 @@ namespace binomialheap{
         if(node1->l==node2->l){
             if(node1->val<node2->val){
                 node1->nodes.push_back(node2);
+                node2->left=NULL;
+                node2->right=NULL;
                 node2->parent=node1;
                 node2->head=0;   
                 hashMap.erase(node1->l);
@@ -276,56 +281,39 @@ namespace binomialheap{
         
     }
 
-    void decreaseKey(Node * node, int key){
-        if(node->val==key){
-            return;
-        }
-        node->val=key;
-        while(node->parent!=NULL&&node->parent->val>node->val){
-            int temp = node->val;
-            node->val = node->parent->val;
-            node->parent->val = temp;
-            node=node->parent;
-        }
-    }
-
-// n2 is parent!!!
+// n2 is parent
 void ChildCopy(Node *n1, Node *n2) {
-
     vector<Node*> temp;
-
-    
 
     for(int i = 0; i < n1->nodes.size(); i++) {
         temp.push_back(n1->nodes[i]);
     }
-
     n1->nodes.clear();
-
-    for(int i = 0; i < n2->nodes.size(); i++) {
-        
+    for(int i = 0; i < n2->nodes.size(); i++) {   
         if(n2->nodes[i] != n1)
             n1->nodes.push_back(n2->nodes[i]);
     }
-
     n2->nodes.clear();
-
     for(int i = 0; i < temp.size(); i++)
         n2->nodes.push_back(temp[i]);
+
 }
 
+void removeParAddNode(Node* node, Node* parent){
+    for(int i=0;i<node->parent->nodes.size();i++){
+        if(node->parent->nodes[i]==parent){
+            node->parent->nodes.erase(node->parent->nodes.begin() + i,node->parent->nodes.begin() + i+1);
+        }
+    }
+    node->parent->nodes.push_back(node);
+}
 
-
-void decreaseKey(Node * node, int key){
-    
-    cout<<"In decrease key!!!, nodeid = "<<node->id<<endl;
-
+void decreaseKey(Node* heapNode,Node * node, int key){
     if(node->val==key){
         return;
     }
     node->val=key;
     while(node->parent!=NULL&&node->parent->val>node->val){
-        
         Node *parent = node->parent;
         if(parent->left != NULL && parent->right != NULL) {
             node->left = parent->left;
@@ -333,28 +321,26 @@ void decreaseKey(Node * node, int key){
             parent->left->right = node;
             parent->right->left = node;
         }
-
-        else if(parent->left == NULL) {
-            
+        else if(parent->right != NULL) {
             node->right = parent->right;
             parent->right->left = node;
         }
-
-        else if(parent->right == NULL) {
+        else if(parent->left != NULL) {
             node->left = parent->left;
             parent->left->right = node;
         }
+        node->parent=parent->parent;     
         parent->parent = node;
-            
         ChildCopy(node, parent);
+        if(node->parent!=NULL){
+            removeParAddNode(node,parent);
+        }
         node->nodes.push_back(parent);
 
-        node->parent = NULL;
+        // node->left=NULL;
+        // node->right=NULL;
         parent->left = NULL;
         parent->right = NULL;
-
-
-
     }
 }
 
