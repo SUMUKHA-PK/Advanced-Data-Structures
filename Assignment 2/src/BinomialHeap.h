@@ -308,7 +308,7 @@ void removeParAddNode(Node* node, Node* parent){
     node->parent->nodes.push_back(node);
 }
 
-void decreaseKey(Node* heapNode,Node * node, int key){
+void decreaseKey(Node** heapNode,Node * node, int key){
     if(node->val==key){
         return;
     }
@@ -329,6 +329,7 @@ void decreaseKey(Node* heapNode,Node * node, int key){
             node->left = parent->left;
             parent->left->right = node;
         }
+        if (parent==*heapNode) *heapNode = node;
         node->parent=parent->parent;     
         parent->parent = node;
         ChildCopy(node, parent);
@@ -337,8 +338,6 @@ void decreaseKey(Node* heapNode,Node * node, int key){
         }
         node->nodes.push_back(parent);
 
-        // node->left=NULL;
-        // node->right=NULL;
         parent->left = NULL;
         parent->right = NULL;
     }

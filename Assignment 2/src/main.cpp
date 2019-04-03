@@ -70,7 +70,7 @@ void UseBinomialHeap(vector<int> X, vector<int> Y, vector<int> W) {
 
             if(pointerVector[v]->val > pointerVector[u]->val + w_u_v) {
                 cout<<"pointer to "<<pointerVector[v]->id<<endl;
-                binomialheap::decreaseKey(pointerVector[v], pointerVector[u]->val + w_u_v);
+                binomialheap::decreaseKey(&root,pointerVector[v], pointerVector[u]->val + w_u_v);
                 cout<<"pointer to "<<pointerVector[v]->id<<endl;
 
                 for(int i = 0; i < TotalNodeCount; i++) {

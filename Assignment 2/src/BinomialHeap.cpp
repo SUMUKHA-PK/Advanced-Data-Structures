@@ -66,13 +66,14 @@ int main(){
     // decreaseKey(node->right->right->right->nodes[2],0);
     // printHeap(node);
     heapUnion(&node,node,createNode(115,hashMap,0),hashMap);
-    heapUnion(&node,node,createNode(125,hashMap,0),hashMap);
-    heapUnion(&node,node,createNode(915,hashMap,0),hashMap);
+    // heapUnion(&node,node,createNode(125,hashMap,0),hashMap);
+    // heapUnion(&node,node,createNode(915,hashMap,0),hashMap);
     printHeap(node);
     
     // cout<<node->right->nodes[2]->nodes[1]->nodes[0]->val<<endl;
-    decreaseKey(node,node->right->nodes[2]->nodes[1]->nodes[0],0);
-    // decreaseKey(node,node->right->nodes[3]->nodes[0],0);
+    // decreaseKey(node->right->nodes[2]->nodes[1]->nodes[0],0);
+    // decreaseKey(node->right->nodes[3]->nodes[0],0);
+    decreaseKey(&node,node->nodes[0],0);
     printHeap(node);
     return 0;
 }
