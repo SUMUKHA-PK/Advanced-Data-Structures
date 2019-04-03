@@ -38,6 +38,8 @@ void UseBinomialHeap(vector<int> X, vector<int> Y, vector<int> W) {
 
     // Add 1 extra node to manage.
     binomialheap::heapUnion(&root, root, binomialheap::createNode(INT_MAX, hashMap, -1), hashMap);
+    binomialheap::heapUnion(&root, root, binomialheap::createNode(INT_MAX, hashMap, -2), hashMap);
+
 
     set<int> S;
     S.clear();
@@ -51,6 +53,7 @@ void UseBinomialHeap(vector<int> X, vector<int> Y, vector<int> W) {
         binomialheap::printHeap(root);
         cout<<endl;
         cout<<"Minimum = "<<U->val<<endl;
+        // binomialheap::printHeap(root);
         binomialheap::extractMin(&root, hashMap);
         cout<<"Extracted that minimum"<<endl;
         S.insert(U->id);
