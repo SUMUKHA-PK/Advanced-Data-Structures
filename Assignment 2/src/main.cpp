@@ -1,5 +1,6 @@
 #include<bits/stdc++.h>
 #include<stdlib.h>
+#include<time.h>
 
 #include "BinomialHeap.h"
 #include "BinaryHeap.h"
@@ -8,6 +9,7 @@ using namespace std;
 
 // source node
 const unsigned SOURCE = 0;
+
 
 void UseBinomialHeap(vector<int> X, vector<int> Y, vector<int> W) {
     
@@ -224,13 +226,16 @@ void UseFibHeap(vector<int> &X, vector<int> &Y, vector<int> &W) {
 
 int main(int argc, char **argv) {
 
-    if(argc != 2) {
-        cout<<"Usage: $ "<<argv[0]<<" <HeapType> "<<endl;
-        cout<<"Types of heap available: "<<endl;
+    if(argc != 3) {
+        cout<<"Usage: $ "<<argv[0]<<" <HeapType> <InputType>"<<endl;
+        cout<<"--> Types of heap available: "<<endl;
         cout<<"1. binary"<<endl;
         cout<<"2. binomial"<<endl;
         cout<<"3. fibonacci"<<endl;
-        
+        cout<<"--> Input Size: "<<endl;
+        cout<<"1. small"<<endl;
+        cout<<"2. large"<<endl;
+
         return -1;
     }
 
@@ -242,7 +247,12 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    
+    string InputSize(argv[2]);
+    if(InputSize != "small" && InputSize != "large") {
+        cout<<"Invalid Input Type<<"<<endl;
+        return -1;
+    }
+
 
     // For now, I will be using adjacency matrix. 
     // Later, will shift to CSR - for huge number of nodes.
@@ -251,37 +261,86 @@ int main(int argc, char **argv) {
     cout<<"Enter total number of nodes: "<<endl;
     cin>>TotalNodeCount;
 
+   int Graph[TotalNodeCount][TotalNodeCount];
+
+    // If small, ask for user input
+    if(InputSize == "small") {
+
+        for(unsigned i = 0; i < TotalNodeCount; i++) {
+            for(unsigned j = i + 1; j < TotalNodeCount; j++) {
+                Graph[i][j] = 0;
+
+                cout<<"Weight of edge ("<<i<<", "<<j<<") : ";
+                cin>>Graph[i][j];
+                if(Graph[i][j] < 0) {
+                    cout<<"Non-negative weights only"<<endl;
+                    return -1;
+                }
+                Graph[j][i] = Graph[i][j];
+            }
+
+            // No self-loops
+            Graph[i][i] = 0;
+        }
+    }
+    // If large, generate the graph
+    else if(InputSize == "large") {
+        srand(time(NULL));
+        
+        for(unsigned i = 0; i < TotalNodeCount; i++) {
+            for(unsigned j = i + 1; j < TotalNodeCount; j++) {
+                unsigned w = (unsigned)(rand() % 10);
+                Graph[i][j] = w;
+                Graph[j][i] = Graph[i][j];
+            }
+            
+        // No self-loops
+        Graph[i][i] = 0;  
+        
+        }
+    }
+    
+    // Convert Adjacency Matrix to CSR Form
+    // Dijkstra works on CSR
+
     // CSR Form
     vector<int> X;      
     vector<int> Y;  
     vector<int> W;
-    int temp;
-    vector<int>::iterator iter;
+    unsigned EdgeCount = 0;
 
-    // If there are n nodes, X has (n+1) elements
-    for(int i = 0; i <= TotalNodeCount; i++) {
-        cin>>temp;
-        X.push_back(temp);
+    // Initialization
+    X.push_back(0);
+
+    for(unsigned i = 0; i < TotalNodeCount; i++) {
+
+        for(unsigned j = 0; j < TotalNodeCount; j++) {
+            if(Graph[i][j] != 0) {
+                EdgeCount++;
+                Y.push_back(j);
+                W.push_back(Graph[i][j]);
+            }
+        }
+        X.push_back(EdgeCount);
     }
 
-    while(scanf("%d", &temp) == 1) {
-        Y.push_back(temp);
+    cout<<"X: ";
+    for(unsigned i = 0; i < X.size(); i++) {
+        cout<<X[i]<<" ";
     }
-
-    int Ylen = Y.size();
-    vector<int> tempv;
-
-    for(int i = 0; i < Ylen/2; i++) {
-        temp = Y[Y.size() - 1];
-        Y.pop_back();
-        tempv.push_back(temp);
+    cout<<endl;
+    
+    cout<<"Y: ";
+    for(unsigned i = 0; i < Y.size(); i++) {
+        cout<<Y[i]<<" ";
     }
+    cout<<endl;
 
-    for(int i = 1; i < Ylen/2; i++) {
-        temp = tempv[tempv.size() - 1];
-        tempv.pop_back();
-        W.push_back(temp);
+    cout<<"W: ";
+    for(unsigned i = 0; i < W.size(); i++) {
+        cout<<W[i]<<" ";
     }
+    cout<<endl;
 
 
     if(HeapType == "binomial")
