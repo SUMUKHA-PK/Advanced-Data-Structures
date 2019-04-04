@@ -38,10 +38,9 @@ void UseBinomialHeap(vector<int> X, vector<int> Y, vector<int> W) {
         }
     }
 
-    // Add 1 extra node to manage.
-    binomialheap::heapUnion(&root, root, binomialheap::createNode(INT_MAX, hashMap, -1), hashMap);
-    binomialheap::heapUnion(&root, root, binomialheap::createNode(INT_MAX, hashMap, -2), hashMap);
+    binomialheap::createNode(INT_MAX, hashMap, -2);
 
+    // binomialheap::printHeap(root);
 
     set<int> S;
     S.clear();
@@ -49,13 +48,17 @@ void UseBinomialHeap(vector<int> X, vector<int> Y, vector<int> W) {
     cout<<"No problems till here"<<endl;
 
     // Till there is only 1 node.
-    while(S.size() <= TotalNodeCount) {
+    while(S.size() < TotalNodeCount) {
+        cout<<"========================S.SIZE() = "<<S.size()<<"============================="<<endl;
 
         binomialheap::Node *U = binomialheap::getMin(&root);
-        binomialheap::printHeap(root);
+        // binomialheap::printHeap(root);
         cout<<endl;
         cout<<"Minimum = "<<U->val<<endl;
+        if(U->val == INT_MAX)
+            goto result;
         // binomialheap::printHeap(root);
+        cout<<"About to extract minimum"<<endl;
         binomialheap::extractMin(&root, hashMap);
         cout<<"Extracted that minimum"<<endl;
         S.insert(U->id);
@@ -63,17 +66,21 @@ void UseBinomialHeap(vector<int> X, vector<int> Y, vector<int> W) {
         int u = U->id;
 
         for(int z = X[u]; z < X[u+1]; z++) {
-            cout<<"\n\n\nz = "<<z<<endl;
+            // cout<<"\n\n\nz = "<<z<<endl;
             int  v = Y[z];
-            cout<<"Neighbour v = "<<v;
-            cout<<"\nNeighbour check = "<<pointerVector[v]->id<<endl;
+            // cout<<"Neighbour v = "<<v;
+            // cout<<"\nNeighbour check = "<<pointerVector[v]->id<<endl;
             int w_u_v = W[z];
-            cout<<", Weight = "<<w_u_v<<endl;
+            // cout<<", Weight = "<<w_u_v<<endl;
 
             if(pointerVector[v]->val > pointerVector[u]->val + w_u_v) {
-                cout<<"pointer to "<<pointerVector[v]->id<<endl;
+                // cout<<"pointer to "<<pointerVector[v]->id<<endl;
+                binomialheap::printHeap(root);
+                cout<<"That was before decrease key"<<endl;
                 binomialheap::decreaseKey(&root,pointerVector[v], pointerVector[u]->val + w_u_v);
-                cout<<"pointer to "<<pointerVector[v]->id<<endl;
+                // cout<<"pointer to "<<pointerVector[v]->id<<endl;
+                cout<<"This is after decrease key"<<endl;
+                binomialheap::printHeap(root);
 
                 for(int i = 0; i < TotalNodeCount; i++) {
                    cout<<"NodeId = "<<pointerVector[i]->id<<", Distance = "<<pointerVector[i]->val<<endl;
@@ -81,12 +88,15 @@ void UseBinomialHeap(vector<int> X, vector<int> Y, vector<int> W) {
             
             }
         }
+        // binomialheap::printHeap(root);
+
     }
 
-    cout<<"Shortest paths from source to all other nodes: "<<endl;
-    for(int i = 0; i < TotalNodeCount; i++) {
-        cout<<"NodeId = "<<pointerVector[i]->id<<", Distance = "<<pointerVector[i]->val<<endl;
-    }
+    result: 
+        cout<<"Shortest paths from source to all other nodes: "<<endl;
+        for(int i = 0; i < TotalNodeCount; i++) {
+            cout<<"NodeId = "<<pointerVector[i]->id<<", Distance = "<<pointerVector[i]->val<<endl;
+        }
 }
 
 void UseBinaryHeap(vector<int> &X, vector<int> &Y, vector<int> &W) {
@@ -121,7 +131,6 @@ void UseBinaryHeap(vector<int> &X, vector<int> &Y, vector<int> &W) {
         
         for(int z = X[u]; z < X[u+1]; z++) {
 
-            cout<<z<<" ";
             int v = Y[z];
             int w_u_v = W[z];
 
@@ -187,7 +196,7 @@ void UseFibHeap(vector<int> &X, vector<int> &Y, vector<int> &W) {
 
         fibheap1::Node *U = fibheap1::getMin(&root);
         fibheap1::printHeap(root);
-        cout<<endl;
+        
         cout<<"Minimum = "<<U->val<<endl;
         fibheap1::extractMin(&root, hashMap);
         cout<<"Extracted that minimum"<<endl;
@@ -232,9 +241,9 @@ int main(int argc, char **argv) {
         cout<<"1. binary"<<endl;
         cout<<"2. binomial"<<endl;
         cout<<"3. fibonacci"<<endl;
-        cout<<"--> Input Size: "<<endl;
-        cout<<"1. small"<<endl;
-        cout<<"2. large"<<endl;
+        cout<<"--> InputType: "<<endl;
+        cout<<"1. manual"<<endl;
+        cout<<"2. auto"<<endl;
 
         return -1;
     }
@@ -247,9 +256,9 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    string InputSize(argv[2]);
-    if(InputSize != "small" && InputSize != "large") {
-        cout<<"Invalid Input Type<<"<<endl;
+    string InputType(argv[2]);
+    if(InputType != "manual" && InputType != "auto") {
+        cout<<"Invalid Input Type"<<endl;
         return -1;
     }
 
@@ -264,7 +273,7 @@ int main(int argc, char **argv) {
    int Graph[TotalNodeCount][TotalNodeCount];
 
     // If small, ask for user input
-    if(InputSize == "small") {
+    if(InputType == "manual") {
 
         for(unsigned i = 0; i < TotalNodeCount; i++) {
             for(unsigned j = i + 1; j < TotalNodeCount; j++) {
@@ -284,22 +293,32 @@ int main(int argc, char **argv) {
         }
     }
     // If large, generate the graph
-    else if(InputSize == "large") {
+    else if(InputType == "auto") {
         srand(time(NULL));
         
         for(unsigned i = 0; i < TotalNodeCount; i++) {
             for(unsigned j = i + 1; j < TotalNodeCount; j++) {
-                unsigned w = (unsigned)(rand() % 10);
+                unsigned w = (unsigned)(rand() % 10000);
                 Graph[i][j] = w;
                 Graph[j][i] = Graph[i][j];
             }
             
         // No self-loops
         Graph[i][i] = 0;  
-        
         }
     }
     
+    // Display the graph
+    cout<<"\n\nGraph : \n\n"<<endl;
+    for(unsigned i = 0; i < TotalNodeCount; i++) {
+        cout<<i<<" : ";
+        for(unsigned j = 0; j < TotalNodeCount; j++) {
+            cout<<Graph[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+
     // Convert Adjacency Matrix to CSR Form
     // Dijkstra works on CSR
 
@@ -324,23 +343,23 @@ int main(int argc, char **argv) {
         X.push_back(EdgeCount);
     }
 
-    cout<<"X: ";
-    for(unsigned i = 0; i < X.size(); i++) {
-        cout<<X[i]<<" ";
-    }
-    cout<<endl;
+    // cout<<"X: ";
+    // for(unsigned i = 0; i < X.size(); i++) {
+    //     cout<<X[i]<<" ";
+    // }
+    // cout<<endl;
     
-    cout<<"Y: ";
-    for(unsigned i = 0; i < Y.size(); i++) {
-        cout<<Y[i]<<" ";
-    }
-    cout<<endl;
+    // cout<<"Y: ";
+    // for(unsigned i = 0; i < Y.size(); i++) {
+    //     cout<<Y[i]<<" ";
+    // }
+    // cout<<endl;
 
-    cout<<"W: ";
-    for(unsigned i = 0; i < W.size(); i++) {
-        cout<<W[i]<<" ";
-    }
-    cout<<endl;
+    // cout<<"W: ";
+    // for(unsigned i = 0; i < W.size(); i++) {
+    //     cout<<W[i]<<" ";
+    // }
+    // cout<<endl;
 
 
     if(HeapType == "binomial")
